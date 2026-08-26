@@ -829,7 +829,6 @@ body.home .masthead-in{min-height:74px;padding-top:10px}
 body.home .hero{margin-top:8px}
 
 /* the hero image is shown clean — contrast comes from the photograph */
-.hero.clean::after{display:none}
 .hero.clean{min-height:min(84vh,700px)}
 .hero.clean .hero-copy{background:none;border:0;backdrop-filter:none;padding:0;max-width:42rem}
 .hero.clean .hero-copy h1{text-shadow:0 2px 10px rgba(0,0,0,.42)}
@@ -906,85 +905,43 @@ body.home .hero{margin-top:8px}
   .arrows{justify-content:flex-start}
 }
 
-/* ---------- 27. HERO FILM: the circle IS the video, and it morphs ------- */
-.filmbox{
-  position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;
-  border:1px solid rgba(255,255,255,.6);background:#000;
-  transition:top .72s cubic-bezier(.6,0,.2,1),left .72s cubic-bezier(.6,0,.2,1),
-             width .72s cubic-bezier(.6,0,.2,1),height .72s cubic-bezier(.6,0,.2,1),
-             border-radius .72s cubic-bezier(.6,0,.2,1),border-color .4s}
-.filmbox video{width:100%;height:100%;object-fit:cover;display:block}
 
-/* expanded: sits above every other layer in the header, so text and
-   controls simply fall behind it */
-.filmbox.is-open{z-index:30;border-radius:var(--r-xl);border-color:transparent;aspect-ratio:auto}
+/* ---------- 27. HERO VIDEO + CIRCLE ------------------------------------ */
+.herovideo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
+  filter:contrast(1.12) saturate(1.08)}
+/* legibility scrim over the footage */
+.hero.clean::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;display:block;
+  background:linear-gradient(90deg,rgba(10,8,5,.66) 0%,rgba(10,8,5,.3) 48%,rgba(10,8,5,.12) 100%)}
+.hero.clean .hero-inner,.hero.clean .hero-note,
+.hero.clean .badge,.hero.clean .herobar{position:relative;z-index:3}
+.hero.clean .hero-note,.hero.clean .badge,.hero.clean .herobar{position:absolute}
 
-/* play sits on the circle, cross sits on the expanded film */
-.badge-play{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;
-  width:clamp(52px,6vw,64px);aspect-ratio:1;border-radius:50%;border:0;
-  background:rgba(255,255,255,.92);display:grid;place-items:center;
-  transition:transform .25s,opacity .3s,background .2s}
-.badge-play:hover{background:#fff;transform:translate(-50%,-50%) scale(1.08)}
-.badge-play svg{width:18px;height:18px;margin-left:3px;color:#14171a}
-.filmbox.is-open .badge-play{opacity:0;pointer-events:none}
+/* the circle is decorative for now — no play control */
+.filmbox{position:relative;width:100%;aspect-ratio:1;border-radius:50%;overflow:hidden;
+  border:1px solid rgba(255,255,255,.6)}
+.filmbox img{width:100%;height:100%;object-fit:cover;display:block}
 
-.film-close{
-  position:absolute;right:18px;top:18px;z-index:5;width:48px;height:48px;border-radius:50%;
-  background:rgba(255,255,255,.92);border:0;display:grid;place-items:center;color:#14171a;
-  opacity:0;pointer-events:none;transform:scale(.8);
-  transition:opacity .3s .5s,transform .3s .5s,background .2s}
-.filmbox.is-open .film-close{opacity:1;pointer-events:auto;transform:none}
-.film-close:hover{background:#fff;transform:rotate(90deg)}
-.film-close svg{width:20px;height:20px}
-
-/* ---------- 28. HERO CAROUSEL ------------------------------------------ */
-.heroslides{position:absolute;inset:0;z-index:0}
-.heroslide{position:absolute;inset:0;opacity:0;visibility:hidden;
-  transition:opacity .8s ease,transform 1.2s cubic-bezier(.2,.8,.3,1);transform:scale(1.04)}
-.heroslide.on{opacity:1;visibility:visible;transform:scale(1)}
-.heroslide .cine{position:absolute;inset:0}
-.heroslide .cine img{filter:contrast(1.16) saturate(1.12)}
-/* legibility floor for white text over any frame */
-.heroslide::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(12,9,6,.62) 0%,rgba(12,9,6,.28) 46%,rgba(12,9,6,.1) 100%)}
-
-.herobar{position:absolute;right:var(--gutter);bottom:clamp(26px,3.4vw,46px);z-index:6;
+/* static labels */
+.herobar{position:absolute;right:var(--gutter);bottom:clamp(26px,3.4vw,46px);z-index:3;
   display:flex;align-items:center;justify-content:flex-end;gap:18px;flex-wrap:wrap}
-.heronav{display:flex;align-items:center;gap:12px}
-.heronav button{width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);
-  background:rgba(255,255,255,.14);backdrop-filter:blur(8px);color:#fff;display:grid;place-items:center;
-  transition:background .2s,transform .2s}
-.heronav button:hover{background:#fff;color:#14171a;transform:translateY(-2px)}
-.heronav svg{width:16px;height:16px}
-.herocount{color:#fff;font-size:1em;letter-spacing:.1em;font-variant-numeric:tabular-nums;
-  text-shadow:0 1px 6px rgba(0,0,0,.6)}
-.herodots{display:flex;gap:8px;align-items:center}
-.herodots button{width:9px;height:9px;padding:0;border-radius:99px;border:0;
-  background:rgba(255,255,255,.45);transition:all .3s}
-.herodots button[aria-current="true"]{background:#fff;width:30px}
+.tags{display:flex;align-items:center;gap:10px}
+.tags .pill{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.5);color:#fff;
+  backdrop-filter:blur(6px);cursor:default}
+.tags .pill.tilt{transform:rotate(-24deg);background:#fff;color:var(--ink);border-color:#fff}
+.tags .pill:hover{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.5);transform:none}
+.tags .pill.tilt:hover{background:#fff;color:var(--ink);transform:rotate(-24deg)}
 
-/* the three tag pills ARE the slide labels */
-.tags .pill{cursor:pointer}
-.tags .pill[aria-current="true"]{background:#fff;color:var(--ink);border-color:#fff;
-  transform:rotate(-24deg)}
-.tags .pill:not([aria-current="true"]){transform:none}
-
-
-/* ---------- 29. 16px floor housekeeping -------------------------------- */
-/* uppercase headings: give the wider setting a little more room */
-.h-xl,.h-lg{letter-spacing:-.015em}
-.card h3,.acard h3,.pcard h3{letter-spacing:-.005em;line-height:1.25}
-.kicker,.pill,.chip{letter-spacing:.06em}
-/* the hero pills and controls now sit at 16px — keep them from crowding */
-.tags .pill{padding:9px 15px}
-.badge-labels span{font-size:1em}
-
-
-/* ---------- 30. HERO BASE LAYER + FILM ---------------------------------- */
-.herobase{position:absolute;inset:0;z-index:-1;overflow:hidden}
-.herobase img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(1.05) brightness(.9)}
-.hero.clean{isolation:isolate}
-.hero.is-playing .herobar{opacity:0;pointer-events:none;transition:opacity .3s}
-
-.filmslot{width:100%;aspect-ratio:1;border-radius:50%;pointer-events:none}
+@media(max-width:1080px){
+  .hero-note{display:none}
+  .badge{top:auto;bottom:clamp(96px,16vw,150px);width:clamp(140px,26vw,190px)}
+  .badge-ring{display:none}
+  .badge-labels{right:calc(100% + 16px);gap:12px}
+}
+@media(max-width:760px){
+  .herobar{position:static;justify-content:flex-start;padding:18px var(--gutter) 0}
+  .badge{right:auto;left:50%;transform:translateX(-50%);top:clamp(70px,18vw,120px);
+    bottom:auto;width:clamp(128px,40vw,168px)}
+  .badge-labels{display:none}
+}

@@ -64,40 +64,20 @@
   </nav>
 </header>
 <main id="main">
-<section class="hero clean" aria-roledescription="carousel" aria-label="Princeton in three views">
-  <div class="herobase" aria-hidden="true"><img src="assets/img/tree-lighting.jpg" alt="" loading="eager" decoding="async"></div>
-  <div class="heroslides">
-    <div class="heroslide on" data-slide="0" role="group"
-         aria-roledescription="slide" aria-label="1 of 3: history">
-      <div class="cine"><img src="assets/img/nassau-hall.webp" alt="Ivy-covered Nassau Hall framed by trees" loading="eager" decoding="async"></div>
-    </div>
-    <div class="heroslide" data-slide="1" role="group"
-         aria-roledescription="slide" aria-label="2 of 3: art">
-      <div class="cine"><img src="assets/img/art-museum-store.webp" alt="The lit windows of the Princeton University Art Museum Store at night" loading="lazy" decoding="async"></div>
-    </div>
-    <div class="heroslide" data-slide="2" role="group"
-         aria-roledescription="slide" aria-label="3 of 3: nature">
-      <div class="cine"><img src="assets/img/lake-carnegie-rower.jpg" alt="A single sculler on Lake Carnegie in golden morning mist" loading="lazy" decoding="async"></div>
-    </div>
-  </div>
+<section class="hero clean">
+  <video class="herovideo" autoplay muted loop playsinline preload="auto"
+         poster="assets/video/princeton-film-poster.jpg"
+         aria-label="Aerial film of Princeton in autumn">
+    <source src="assets/video/princeton-film.mp4" type="video/mp4">
+  </video>
 
   <p class="hero-note">Historical, cultural and recreational — there are new places to see
      and things to discover all over town.</p>
 
-  <div class="badge">
+  <div class="badge" aria-hidden="true">
     <span class="badge-ring"></span>
-    <div class="filmbox" id="filmbox">
-      <video id="heroVideo" muted playsinline preload="metadata"
-             poster="assets/video/princeton-film-poster.jpg"
-             aria-label="Aerial film of Princeton in autumn">
-        <source src="assets/video/princeton-film.mp4" type="video/mp4">
-      </video>
-      <button class="badge-play" id="filmPlay" aria-label="Play the film — it expands to fill the header">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-      </button>
-      <button class="film-close" id="filmClose" aria-label="Close the film and return it to the circle">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
-      </button>
+    <div class="filmbox">
+      <img src="assets/img/film-still.jpg" alt="" loading="lazy" decoding="async">
     </div>
     <div class="badge-labels">
       <span>Historical <i></i></span>
@@ -115,24 +95,13 @@
     </div>
   </div>
 
-
   <div class="herobar">
-  <div class="tags" role="tablist" aria-label="Image themes">
-    <button type="button" class="pill" data-go="0" role="tab" aria-current="true">history</button>
-    <button type="button" class="pill" data-go="1" role="tab" aria-current="false">art</button>
-    <button type="button" class="pill" data-go="2" role="tab" aria-current="false">nature</button>
+    <div class="tags">
+      <span class="pill">history</span>
+      <span class="pill tilt">arts</span>
+      <span class="pill">nature</span>
+    </div>
   </div>
-  <div class="heronav">
-    <button type="button" id="heroPrev" aria-label="Previous image">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M15 6 9 12l6 6"/></svg></button>
-    <button type="button" id="heroNext" aria-label="Next image">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-    <span class="herocount"><span id="heroIdx">1</span> / 3</span>
-    <span class="herodots" id="heroDots" role="tablist" aria-label="Choose an image"></span>
-  </div>
-  </div>
-
-  <p class="sr-only" aria-live="polite" id="heroLive">Showing image 1 of 3: history</p>
 </section>
 
 <a class="scroll-dot" href="#charms" aria-label="Scroll to the next section">
@@ -148,7 +117,7 @@
         <span class="lab"><b>Arts &amp;<br>Entertainment</b><span>01</span></span>
       </a>
       <a class="mediacard reveal c3" href="explore.html#historical" aria-label="Historical and architectural">
-        <div class="cine"><img src="assets/img/battlefield-monument.jpg" alt="The colonnade monument at Princeton Battlefield State Park" class="" loading="lazy" decoding="async"></div>
+        <div class="cine"><img src="assets/img/battlefield-colonnade.jpg" alt="The Ionic colonnade at Princeton Battlefield in autumn" class="" loading="lazy" decoding="async"></div>
         <span class="tagdot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg></span>
         <span class="lab"><b>Historical &amp;<br>Architectural</b><span>02</span></span>
       </a>
@@ -278,11 +247,11 @@
   <div class="wrap">
     <h2 class="h-lg" id="galh" style="text-align:center;display:flex;align-items:center;justify-content:center;gap:14px"><svg class="mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5 14.4 9.6 22.5 12l-8.1 2.4L12 22.5 9.6 14.4 1.5 12l8.1-2.4L12 1.5Z"/></svg> Gallery</h2>
     <div class="collage" style="margin-top:36px">
-      <figure class="p1"><div class="cine"><img src="assets/img/campus-stone-college.jpg" alt="A stone collegiate building and lawn on the Princeton campus" class="" loading="lazy" decoding="async"></div></figure>
-      <figure class="p2"><div class="cine"><img src="assets/img/university-chapel.webp" alt="The Gothic west front of the Princeton University Chapel" class="" loading="lazy" decoding="async"></div></figure>
-      <figure class="p3"><div class="cine"><img src="assets/img/art-museum-store.webp" alt="The lit windows of the Princeton University Art Museum Store at night" class="" loading="lazy" decoding="async"></div></figure>
-      <figure class="p4"><div class="cine"><img src="assets/img/marquand-chapel-autumn.jpg" alt="A brownstone Gothic chapel among fallen autumn leaves" class="" loading="lazy" decoding="async"></div></figure>
-      <figure class="p5"><div class="cine"><img src="assets/img/nassau-hall-tigers.jpg" alt="The bronze tigers flanking the steps of Nassau Hall in autumn" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p1"><div class="cine"><img src="assets/img/east-pyne-arch.jpg" alt="The carved brownstone archway of East Pyne Hall" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p2"><div class="cine"><img src="assets/img/cleveland-tower.jpg" alt="Cleveland Tower rising above the graduate college rooftops" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p3"><div class="cine"><img src="assets/img/gothic-arch-tunnel.jpg" alt="A run of pointed stone arches over a flagstone path" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p4"><div class="cine"><img src="assets/img/arch-courtyard.jpg" alt="A gothic arch framing a courtyard beyond" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p5"><div class="cine"><img src="assets/img/nassau-tigers-walk.jpg" alt="The bronze tigers outside Nassau Hall as someone walks past" class="" loading="lazy" decoding="async"></div></figure>
       <p class="pnote">Nature, architecture and history — your perfect escape, all within
          walking distance.</p>
     </div>

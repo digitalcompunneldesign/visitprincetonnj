@@ -189,6 +189,13 @@
   /* ==================================================================
      4. WIRE UP THE UI
      ================================================================== */
+  /* each feature runs in isolation — a fault in one must not disable the others */
+  function safely(fn) {
+    try { fn(); } catch (e) {
+      if (window.console && console.warn) console.warn("[princeton] feature failed:", e);
+    }
+  }
+
   document.addEventListener("DOMContentLoaded", function () {
 
     /* --- copyright year: always current, never stale --- */
@@ -198,157 +205,25 @@
 
 
 
-    /* --- hero carousel: arrows, dots, count, and the theme pills -------- */
-    (function () {
-      var slides = Array.prototype.slice.call(document.querySelectorAll(".heroslide"));
-      if (slides.length < 2) return;
-      var labels = ["history", "art", "nature"];
-      var dots = document.getElementById("heroDots");
-      var idxOut = document.getElementById("heroIdx");
-      var live = document.getElementById("heroLive");
-      var pills = Array.prototype.slice.call(document.querySelectorAll(".tags .pill"));
-      var i = 0, timer = null, DWELL = 6500;
-
-      slides.forEach(function (s, n) {
-        var d = document.createElement("button");
-        d.type = "button";
-        d.setAttribute("role", "tab");
-        d.setAttribute("aria-label", "Image " + (n + 1) + ": " + (labels[n] || ""));
-        d.setAttribute("aria-current", String(n === 0));
-        d.addEventListener("click", function () { go(n, true); });
-        dots.appendChild(d);
+    /* --- hero video: plays on its own, muted, looping ----------------- */
+    safely(function () {
+      var v = document.querySelector(".herovideo");
+      if (!v) return;
+      v.muted = true;                       // required for autoplay everywhere
+      var p = v.play();
+      if (p && p.catch) p.catch(function () {
+        // some browsers still refuse; the poster frame stands in
+        if (window.console && console.warn) console.warn("[princeton] hero video autoplay blocked");
       });
-
-      function go(n, stop) {
-        i = (n + slides.length) % slides.length;
-        slides.forEach(function (s, k) { s.classList.toggle("on", k === i); });
-        Array.prototype.forEach.call(dots.children, function (d, k) {
-          d.setAttribute("aria-current", String(k === i));
-        });
-        pills.forEach(function (p, k) { p.setAttribute("aria-current", String(k === i)); });
-        if (idxOut) idxOut.textContent = String(i + 1);
-        if (live) live.textContent = "Showing image " + (i + 1) + " of " + slides.length +
-                                     ": " + (labels[i] || "");
-        if (stop) rest();
-      }
-      function next() { go(i + 1); }
-      function rest() { clearInterval(timer); start(); }
-      function start() {
-        if (root.getAttribute("data-motion") === "off") return;
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        timer = setInterval(next, DWELL);
-      }
-
-      var prev = document.getElementById("heroPrev");
-      var nxt = document.getElementById("heroNext");
-      if (prev) prev.addEventListener("click", function () { go(i - 1, true); });
-      if (nxt) nxt.addEventListener("click", function () { go(i + 1, true); });
-      pills.forEach(function (p) {
-        p.addEventListener("click", function () { go(parseInt(p.getAttribute("data-go"), 10), true); });
-      });
-
-      var hero = document.querySelector(".hero.clean");
-      if (hero) {
-        hero.addEventListener("mouseenter", function () { clearInterval(timer); });
-        hero.addEventListener("mouseleave", start);
-        hero.addEventListener("focusin", function () { clearInterval(timer); });
-        hero.addEventListener("focusout", start);
-        hero.addEventListener("keydown", function (e) {
-          if (e.key === "ArrowLeft") { e.preventDefault(); go(i - 1, true); }
-          if (e.key === "ArrowRight") { e.preventDefault(); go(i + 1, true); }
-        });
-      }
+      // don't burn battery on a hidden tab
       document.addEventListener("visibilitychange", function () {
-        if (document.hidden) clearInterval(timer); else start();
+        if (document.hidden) { v.pause(); } else { var q = v.play(); if (q && q.catch) q.catch(function () {}); }
       });
-      go(0);
-      start();
-      window.__heroPause = function () { clearInterval(timer); };
-      window.__heroResume = start;
-    })();
-
-    /* --- hero film: the circle morphs into the header, and back -------- */
-    (function () {
-      var hero = document.querySelector(".hero.clean");
-      var box = document.getElementById("filmbox");
-      var video = document.getElementById("heroVideo");
-      var playBtn = document.getElementById("filmPlay");
-      var closeBtn = document.getElementById("filmClose");
-      if (!hero || !box || !video) return;
-
-      var home = box.parentNode;            // the .badge it lives in
-      var placeholder = document.createElement("div");
-      placeholder.className = "filmslot";
-      var open = false;
-
-      function rectIn(el, host) {
-        var r = el.getBoundingClientRect(), h = host.getBoundingClientRect();
-        return { top: r.top - h.top, left: r.left - h.left, w: r.width, h: r.height };
-      }
-      function pin(r) {
-        box.style.position = "absolute";
-        box.style.top = r.top + "px";
-        box.style.left = r.left + "px";
-        box.style.width = r.w + "px";
-        box.style.height = r.h + "px";
-      }
-
-      function expand() {
-        if (open) return;
-        open = true;
-        var from = rectIn(box, hero);
-        home.insertBefore(placeholder, box);   // hold the circle's slot
-        hero.appendChild(box);                 // move it into the header
-        pin(from);
-        box.getBoundingClientRect();           // flush, so the change animates
-        box.classList.add("is-open");
-        box.style.top = "0px";
-        box.style.left = "0px";
-        box.style.width = hero.clientWidth + "px";
-        box.style.height = hero.clientHeight + "px";
-        if (window.__heroPause) window.__heroPause();
-        try { video.currentTime = 0; } catch (err) { /* metadata not ready yet */ }
-        var p = video.play();
-        if (p && p.catch) p.catch(function () { collapse(); });
-        setTimeout(function () { closeBtn.focus(); }, 500);
-      }
-
-      function collapse() {
-        if (!open) return;
-        open = false;
-        video.pause();
-        var to = rectIn(placeholder, hero);
-        pin(to);
-        box.classList.remove("is-open");
-        var settled = false;
-        var done = function (e) {
-          // only the size transition marks the end — border-color finishes sooner
-          if (e && e.propertyName && e.propertyName !== "width" && e.propertyName !== "height") return;
-          if (settled) return;
-          settled = true;
-          box.removeEventListener("transitionend", done);
-          box.removeAttribute("style");
-          if (placeholder.parentNode) placeholder.parentNode.replaceChild(box, placeholder);
-          if (window.__heroResume) window.__heroResume();
-          if (playBtn) playBtn.focus();
-        };
-        box.addEventListener("transitionend", done);
-        setTimeout(done, 950);                 // fallback if the event never fires
-      }
-
-      if (playBtn) playBtn.addEventListener("click", expand);
-      if (closeBtn) closeBtn.addEventListener("click", collapse);
-      video.addEventListener("ended", collapse);
-      video.addEventListener("error", collapse);
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape" && open) collapse();
-      });
-      window.addEventListener("resize", function () {
-        if (!open) return;
-        box.style.width = hero.clientWidth + "px";
-        box.style.height = hero.clientHeight + "px";
-      });
-    })();
+      // respect a reduced-motion preference
+      try {
+        if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) v.pause();
+      } catch (e) {}
+    });
 
     /* --- theme menu --- */
     var themeBtn = document.getElementById("themeBtn");
