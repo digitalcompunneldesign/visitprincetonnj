@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="The full list of 27 historical, cultural and recreational attractions in Princeton, New Jersey.">
+<title>Attractions | Visit Princeton NJ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;350;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+<script src="assets/search-index.js" defer></script>
+<script src="assets/app.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to main content</a>
+<div class="progress" id="progress" role="progressbar" aria-label="Page scroll progress"
+     aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+
+<header class="masthead">
+  <div class="masthead-in grid">
+
+    <a class="logo c3" href="index.html" aria-label="Visit Princeton NJ — home"><span class="logo-light"><img src="assets/img/logo-visit-princeton.png" alt="Visit Princeton NJ" width="120" height="67" decoding="async"></span><span class="logo-dark"><img src="assets/img/logo-visit-princeton-dark.png" alt="Visit Princeton NJ" width="120" height="67" decoding="async"></span>
+    </a>
+
+    <nav class="mainnav c6" aria-label="Main">
+      <a href="index.html">Visit</a><a href="explore.html">Explore</a><a href="getting-here.html">Getting here</a><a href="stay-eat.html">Stay & eat</a><a href="attractions.html" aria-current="page">Attractions</a>
+    </nav>
+
+    <div class="head-tools c3">
+      <button class="iconbtn" id="searchBtn" aria-haspopup="dialog" aria-expanded="false"
+              aria-controls="searchPanel" aria-label="Search this site" title="Search (press /)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+      </button>
+      <div class="themewrap">
+        <button class="iconbtn" id="themeBtn" aria-haspopup="true" aria-expanded="false"
+                aria-controls="themeMenu" aria-label="Change colour theme">
+          <svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+          <svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22M4.9 4.9l1.9 1.9M17.2 17.2l1.9 1.9M19.1 4.9l-1.9 1.9M6.8 17.2l-1.9 1.9"/></svg>
+        </button>
+        <div class="thememenu" id="themeMenu" role="menu" aria-label="Colour theme">
+          <button type="button" role="menuitemradio" data-theme-opt="light" aria-checked="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v2.6M12 19.4V22M2 12h2.6M19.4 12H22"/></svg>
+            Light</button>
+          <button type="button" role="menuitemradio" data-theme-opt="dark" aria-checked="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
+            Dark</button>
+          <button type="button" role="menuitemradio" data-theme-opt="auto" aria-checked="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            Automatic</button>
+          <p class="hint">Automatic follows your device clock — light from sunrise, dark after sunset.</p>
+        </div>
+      </div>
+
+      <button class="iconbtn navtoggle" id="navToggle" aria-expanded="false"
+              aria-controls="drawer" aria-label="Open navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" aria-hidden="true">
+          <path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="drawer" id="drawer" aria-label="Mobile">
+    <a href="index.html">Visit<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="explore.html">Explore<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="getting-here.html">Getting here<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="stay-eat.html">Stay & eat<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a><a href="attractions.html" aria-current="page">Attractions<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></a>
+  </nav>
+</header>
+
+<div class="search-scrim" id="searchScrim" hidden></div>
+<div class="search-panel" id="searchPanel" role="dialog" aria-modal="true"
+     aria-labelledby="searchTitle" hidden>
+  <h2 class="sr-only" id="searchTitle">Search this site</h2>
+  <div class="search-bar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+      <circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>
+    <input type="search" id="searchInput" autocomplete="off" spellcheck="false"
+           placeholder="Search words or a whole phrase"
+           aria-controls="searchResults" aria-describedby="searchHint">
+    <button type="button" class="search-close" id="searchClose" aria-label="Close search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+        <path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <p class="search-hint" id="searchHint">Search any word or sentence. Put "quotes around a phrase" to match it exactly.</p>
+  <ul class="search-results" id="searchResults" role="listbox" aria-label="Search results"></ul>
+  <div class="search-pager" id="searchPager" hidden>
+    <button type="button" id="pagePrev" aria-label="Previous results">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M15 6 9 12l6 6"/></svg>
+    </button>
+    <span id="pageNum" aria-live="polite">1 / 1</span>
+    <button type="button" id="pageNext" aria-label="More results">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    </button>
+  </div>
+  <p class="search-status" id="searchStatus" role="status" aria-live="polite"></p>
+</div>
+
+
+<nav class="crumbs" aria-label="Breadcrumb">
+  <a href="index.html">Visit Princeton</a><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg><span aria-current="page">Attractions</span>
+</nav>
+<main id="main">
+
+<section class="subhero">
+  <div class="cine"><img src="assets/img/hero-attractions.jpg" alt="A candlelit choral concert in a Princeton chapel" loading="eager" decoding="async"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="kicker">05 — Princeton attractions</span>
+      <h1 class="h-xl">Places to start with</h1>
+      <p>Here are just some of the many historical, cultural and recreational attractions
+         Princeton has to offer. <em>(Sample to Discuss)</em></p>
+    </div>
+  </div>
+</section>
+
+<section class="band band-cream" aria-labelledby="allh">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="kicker" style="color:var(--accent)">The full list</span>
+        <h2 class="h-lg" id="allh" style="margin-top:14px">
+          <span data-count="27">27</span> places to start with</h2>
+      </div>
+      <div class="filters" role="group" aria-label="Filter attractions by type">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="arts" aria-pressed="false">Arts &amp; entertainment</button>
+        <button type="button" data-filter="historical" aria-pressed="false">Historical</button>
+        <button type="button" data-filter="outdoor" aria-pressed="false">Outdoor</button>
+      </div>
+    </div>
+
+    <p class="filter-count" id="filterCount" role="status" aria-live="polite">Showing all 27 places</p>
+    <div class="grid">
+      <article class="card acard reveal c4" data-cat="arts historical" id="bainbridge">
+        <div class="acard-media"><div class="cine"><img src="assets/img/bainbridge-house.jpg" alt="The yellow colonial Bainbridge House on Nassau Street" class="" loading="lazy" decoding="async"></div><span class="acard-num">01</span></div>
+        <h3>Art@Bainbridge</h3>
+        <p>A gallery project of the Princeton University Art Museum, housed in the carefully restored colonial-era Bainbridge House on Nassau Street in downtown Princeton. Admission is free.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="arts-council-of-princeton">
+        <div class="acard-media"><div class="cine"><img src="assets/img/sculpture-arch.jpg" alt="A stainless steel arch sculpture over a garden path" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">02</span></div>
+        <h3>Arts Council of Princeton</h3>
+        <p>A non-profit independent arts organization in Princeton, NJ, offering a range of classes, events and galleries.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="back-nine-golf">
+        <div class="acard-media"><div class="cine"><img src="assets/img/university-store.jpg" alt="Princeton pennants and sporting goods on store shelves" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">03</span></div>
+        <h3>Back Nine Golf</h3>
+        <p>An indoor golf simulator in the Princeton Shopping Center.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="historical outdoor" id="battlefield">
+        <div class="acard-media"><div class="cine"><img src="assets/img/battlefield-colonnade.jpg" alt="The Ionic colonnade at Princeton Battlefield in autumn" class="" loading="lazy" decoding="async"></div><span class="acard-num">04</span></div>
+        <h3>Battlefield State Park</h3>
+        <p>Where American and British troops fought each other on January 3, 1777, in the Battle of Princeton during the American Revolutionary War. The battle ended when the British soldiers in Nassau Hall surrendered.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="canal">
+        <div class="acard-media"><div class="cine"><img src="assets/img/sculpture-dancers.jpg" alt="White dancing figures on the bank of still water" class="" loading="lazy" decoding="async"></div><span class="acard-num">05</span></div>
+        <h3>D&amp;R Canal</h3>
+        <p>Over 70 miles of linear multi-use path along a historic canal, with trail networks and connections across several counties. Pack your hiking shoes, grab your mountain bike or strap that kayak to the car.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="greenway">
+        <div class="acard-media"><div class="cine"><img src="assets/img/sculpture-pond.jpg" alt="A bronze figure sculpture above a lily pond" class="" loading="lazy" decoding="async"></div><span class="acard-num">06</span></div>
+        <h3>D&amp;R Greenway</h3>
+        <p>Since its founding in 1989, the D&amp;R Greenway Trust has preserved 22,000 acres of land in New Jersey. Visitors can walk its trails and enjoy the lands they have helped protect.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="historical" id="drumthwacket">
+        <div class="acard-media"><div class="cine"><img src="assets/img/white-mansion-autumn.jpg" alt="A white colonial mansion behind bare autumn trees" class="" loading="lazy" decoding="async"></div><span class="acard-num">07</span></div>
+        <h3>Drumthwacket</h3>
+        <p>Constructed on land that witnessed the 1777 Princeton battle for American independence, today it serves as the official residence of the Governor of New Jersey.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="friends-of-herrontown-woods">
+        <div class="acard-media"><div class="cine"><img src="assets/img/battlefield-snow.jpg" alt="Snow-covered pines under a deep blue sky" class="" loading="lazy" decoding="async"></div><span class="acard-num">08</span></div>
+        <h3>Friends of Herrontown Woods</h3>
+        <p>Herrontown Woods is Princeton’s first and most whimsical nature preserve.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="historical" id="hsp">
+        <div class="acard-media"><div class="cine"><img src="assets/img/victorian-maple.jpg" alt="A clapboard Victorian house under a blazing orange maple" class="" loading="lazy" decoding="async"></div><span class="acard-num">09</span></div>
+        <h3>Historical Society of Princeton</h3>
+        <p>Founded in 1939 and located at Updike Farmstead, it is a hub for cultural enrichment and experiential education that includes a museum and research center.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="hudson-table">
+        <div class="acard-media"><div class="cine"><img src="assets/img/agricola-plate.jpg" alt="A plated dish of potatoes and a poached egg" class="" loading="lazy" decoding="async"></div><span class="acard-num">10</span></div>
+        <h3>Hudson Table</h3>
+        <p>An interactive culinary studio and event space offering cooking classes, live chef competitions, catering and more.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="institute">
+        <div class="acard-media"><div class="cine"><img src="assets/img/prospect-garden.jpg" alt="A formal garden with clipped hedges and a fountain" class="" loading="lazy" decoding="async"></div><span class="acard-num">11</span></div>
+        <h3>Institute Woods</h3>
+        <p>Open to the public and enjoyed year-round by bird watchers, walkers, runners and cross-country skiers.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="carnegie">
+        <div class="acard-media"><div class="cine"><img src="assets/img/gothic-arch-tunnel.jpg" alt="A run of pointed stone arches over a flagstone path" class="" loading="lazy" decoding="async"></div><span class="acard-num">12</span></div>
+        <h3>Lake Carnegie</h3>
+        <p>Located in the northeastern portion of Princeton, a lovely reservoir built in 1906 by damming the Millstone River.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="mccarter">
+        <div class="acard-media"><div class="cine"><img src="assets/img/mccarter-theatre.jpg" alt="The brick and stone exterior of McCarter Theatre" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">13</span></div>
+        <h3>McCarter Theatre</h3>
+        <p>McCarter’s mission is to create stories and experiences that enliven minds, expand imaginations and engage communities via the performing arts.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts historical" id="morven">
+        <div class="acard-media"><div class="cine"><img src="assets/img/morven-snow.jpg" alt="Morven, a white colonial mansion, under fresh snow" class="" loading="lazy" decoding="async"></div><span class="acard-num">14</span></div>
+        <h3>Morven Museum &amp; Garden</h3>
+        <p>A National Historic Landmark on five pristine acres — home of Richard Stockton, a signer of the Declaration of Independence, and a former Governor’s Mansion — showcasing the state’s cultural heritage through exhibitions, programs and events.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="palmer-square-princeton">
+        <div class="acard-media"><div class="cine"><img src="assets/img/hamilton-tudor.jpg" alt="The half-timbered Tudor shopfronts of Palmer Square at Christmas" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">15</span></div>
+        <h3>Palmer Square Princeton</h3>
+        <p>An exceptional collection of brand name stores, one-of-a-kind boutiques, great places to dine and exciting signature events.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="historical" id="princeton-battlefield-society">
+        <div class="acard-media"><div class="cine"><img src="assets/img/battlefield-monument.jpg" alt="The colonnade monument at Princeton Battlefield" class="" loading="lazy" decoding="async"></div><span class="acard-num">16</span></div>
+        <h3>Princeton Battlefield Society</h3>
+        <p>The officially recognized friends organization for the Princeton Battlefield State Park.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="historical" id="cemetery">
+        <div class="acard-media"><div class="cine"><img src="assets/img/cemetery-sign.jpg" alt="The Princeton Cemetery marker among old headstones" class="" loading="lazy" decoding="async"></div><span class="acard-num">17</span></div>
+        <h3>Princeton Cemetery</h3>
+        <p>A historic graveyard of the Nassau Presbyterian Church that is still active today. The nondenominational burial ground is best known as the final resting place of many notable individuals.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="princeton-family-adventure-center">
+        <div class="acard-media"><div class="cine"><img src="assets/img/bent-spoon-gelato.jpg" alt="Tubs of gelato in many flavours" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">18</span></div>
+        <h3>Princeton Family Adventure Center</h3>
+        <p>Fun, fitness and more at this indoor adventure space for children at the Princeton Shopping Center.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="garden">
+        <div class="acard-media"><div class="cine"><img src="assets/img/movie-night.webp" alt="Families watching an outdoor film screening at dusk" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">19</span></div>
+        <h3>Princeton Garden Theatre</h3>
+        <p>A historic movie theater on Nassau Street dedicated to presenting the finest independent, international, documentary and classic films and series.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="library">
+        <div class="acard-media"><div class="cine"><img src="assets/img/holder-courtyard.jpg" alt="A stone courtyard framed by a gothic arch" class="" loading="lazy" decoding="async"></div><span class="acard-num">20</span></div>
+        <h3>Princeton Public Library</h3>
+        <p>The most visited municipal public library in New Jersey, with over 860,000 annual visitors.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="princeton-shopping-center">
+        <div class="acard-media"><div class="cine"><img src="assets/img/palmer-square-walk.webp" alt="People walking a tree-shaded shopping street" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">21</span></div>
+        <h3>Princeton Shopping Center</h3>
+        <p>Home to more than 40 local and national retail outlets.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="princeton-university-art-museum">
+        <div class="acard-media"><div class="cine"><img src="assets/img/moore-oval.jpg" alt="Henry Moore's green bronze Oval with Points on the campus lawn" class="" loading="lazy" decoding="async"></div><span class="acard-num">22</span></div>
+        <h3>Princeton University Art Museum</h3>
+        <p>A world-class art collection at the heart of the Princeton University campus.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="princeton-university-athletics">
+        <div class="acard-media"><div class="cine"><img src="assets/img/nassau-hall-tigers.jpg" alt="The bronze Princeton tigers on the steps of Nassau Hall" class="" loading="lazy" decoding="async"></div><span class="acard-num">23</span></div>
+        <h3>Princeton University Athletics</h3>
+        <p>Men’s and women’s teams compete in multiple sports, from basketball to water polo.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="princeton-university-concerts">
+        <div class="acard-media"><div class="cine"><img src="assets/img/chapel-interior.jpg" alt="Stained glass and vaulting inside the Princeton University Chapel" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">24</span></div>
+        <h3>Princeton University Concerts</h3>
+        <p>A mission to educate, challenge, inspire and unite audiences through the presentation of exceptional classical musicians.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="springdale-golf-club">
+        <div class="acard-media"><div class="cine"><img src="assets/img/autumn-beech-tower.jpg" alt="A blazing copper beech beside the chapel tower" class="" loading="lazy" decoding="async"></div><span class="acard-num">25</span></div>
+        <h3>Springdale Golf Club</h3>
+        <p>A 15,000 square foot clubhouse with a formal dining room, bar/grille room and a separate conference room — the dining opportunities are endless.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="arts" id="the-princeton-festival">
+        <div class="acard-media"><div class="cine"><img src="assets/img/carols-concert.jpg" alt="A candlelit choral concert in a Princeton chapel" class="face-top" loading="lazy" decoding="async"></div><span class="acard-num">26</span></div>
+        <h3>The Princeton Festival</h3>
+        <p>Princeton’s premier music festival, the Princeton Symphony Orchestra’s flagship summer program.</p>
+      </article>
+      <article class="card acard reveal c4" data-cat="outdoor" id="tpc-jasna-polana">
+        <div class="acard-media"><div class="cine"><img src="assets/img/terhune-tasting.jpg" alt="Wine being poured at a tasting counter" class="" loading="lazy" decoding="async"></div><span class="acard-num">27</span></div>
+        <h3>TPC Jasna Polana</h3>
+        <p>A private golf club in Princeton that offers fine dining and hosts business events, conferences and weddings.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="band band-mint" aria-labelledby="atgal">
+  <div class="wrap">
+    <h2 class="h-lg" id="atgal" style="text-align:center;display:flex;align-items:center;justify-content:center;gap:14px"><svg class="mark" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5 14.4 9.6 22.5 12l-8.1 2.4L12 22.5 9.6 14.4 1.5 12l8.1-2.4L12 1.5Z"/></svg> A look around</h2>
+    <div class="collage" style="margin-top:34px">
+      <figure class="p1"><div class="cine"><img src="assets/img/campus-stone-college.jpg" alt="A stone collegiate building and lawn on the Princeton campus" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p2"><div class="cine"><img src="assets/img/lake-carnegie-rower.jpg" alt="A single sculler on Lake Carnegie in golden morning mist" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p3"><div class="cine"><img src="assets/img/marquand-chapel-autumn.jpg" alt="A brownstone Gothic chapel among fallen autumn leaves" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p4"><div class="cine"><img src="assets/img/alexander-hall.jpg" alt="The Romanesque stonework of Alexander Hall" class="" loading="lazy" decoding="async"></div></figure>
+      <figure class="p5"><div class="cine"><img src="assets/img/palmer-square-evening.webp" alt="Shops and lamplight around Palmer Square at golden hour" class="face-top" loading="lazy" decoding="async"></div></figure>
+      <p class="pnote">Historical, cultural and recreational — all of it close together.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<nav class="nextnav" aria-label="Continue">
+  <span class="lbl">Back to</span>
+  <a class="big" href="index.html">Visit Princeton<i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg></i></a>
+</nav>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="grid">
+      <div class="f-col c4">
+        <a class="logo" href="index.html" style="margin-bottom:16px" aria-label="Visit Princeton NJ — home"><span class="logo-light"><img src="assets/img/logo-visit-princeton.png" alt="Visit Princeton NJ" width="120" height="67" decoding="async"></span><span class="logo-dark"><img src="assets/img/logo-visit-princeton-dark.png" alt="Visit Princeton NJ" width="120" height="67" decoding="async"></span>
+        </a>
+        <p>A nonprofit Special Improvement District for Princeton, New Jersey.</p>
+        <p class="small"><a href="https://visitprincetonnj.info" target="_blank" rel="noopener noreferrer">visitprincetonnj.com</a></p>
+      </div>
+      <div class="f-col c3">
+        <h3>Pages</h3>
+        <ul>
+          <li><a href="index.html">Visit Princeton</a></li>
+          <li><a href="explore.html">Explore</a></li>
+          <li><a href="getting-here.html">Getting here</a></li>
+          <li><a href="stay-eat.html">Stay &amp; eat</a></li>
+          <li><a href="attractions.html" aria-current="page">Attractions</a></li>
+        </ul>
+      </div>
+      <div class="f-col c2">
+        <h3>Plan</h3>
+        <ul>
+          <li><a href="explore.html#when">When to visit</a></li>
+          <li><a href="getting-here.html">Parking</a></li>
+          <li><a href="stay-eat.html#stay">Hotels</a></li>
+          <li><a href="stay-eat.html#shop">Shopping</a></li>
+        </ul>
+      </div>
+      <div class="f-col c3">
+        <h3>Accessibility</h3>
+        <ul>
+          <li><button type="button" class="linkish" onclick="document.getElementById('a11yFab').click()">Open accessibility tools</button></li>
+          <li><span class="small">Press <kbd>Alt</kbd>&nbsp;+&nbsp;<kbd>A</kbd> anywhere</span></li>
+          <li><span class="small">Targets WCAG&nbsp;2.2 level&nbsp;AA</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="wordmark" aria-hidden="true">
+      <svg viewBox="14 8 1172 128" preserveAspectRatio="none" focusable="false">
+        <text x="0" y="118" textLength="1200" lengthAdjust="spacingAndGlyphs"
+              font-size="140">PRINCETON</text>
+      </svg>
+    </div>
+    <p class="sr-only">Princeton</p>
+
+    <div class="f-legal grid">
+      <p class="c6">&copy;&nbsp;<span id="year">2026</span> Visit Princeton NJ</p>
+      <div class="designed c6">
+        <span class="lbl"><span>Website</span><span>Design by</span></span>
+        <a href="https://digital.compunnel.com/" target="_blank" rel="noopener noreferrer" aria-label="Compunnel Digital — website designer (opens in a new tab)">
+          <img src="assets/compunnel-digital.svg" alt="Compunnel Digital" width="104" height="49"><svg class="ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<button class="totop" id="toTop" data-show="false" aria-label="Back to top of page">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"/></svg>
+</button>
+
+<button class="a11y-fab" id="a11yFab" aria-expanded="false" aria-controls="a11yPanel"
+        aria-label="Accessibility tools. Keyboard shortcut Alt plus A" title="Accessibility tools (Alt + A)">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <circle cx="12" cy="4.2" r="2.1"/>
+    <path d="M20.4 7.6c.2.8-.3 1.6-1.1 1.7l-4 .8v3l1.9 6.6c.2.8-.3 1.6-1.1 1.8-.8.2-1.6-.3-1.8-1.1L12.7 15h-1.4l-1.6 5.4c-.2.8-1 1.3-1.8 1.1-.8-.2-1.3-1-1.1-1.8l1.9-6.6v-3l-4-.8c-.8-.2-1.3-.9-1.1-1.7.2-.8.9-1.3 1.7-1.1L10 7.6h4l4.7-.9c.8-.2 1.5.1 1.7.9Z"/>
+  </svg>
+</button>
+
+<section class="a11y-panel" id="a11yPanel" data-open="false" role="dialog" aria-modal="false"
+         aria-labelledby="a11yTitle">
+  <h2 id="a11yTitle">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><circle cx="12" cy="4.2" r="2.1"/><path d="M20.4 7.6c.2.8-.3 1.6-1.1 1.7l-4 .8v3l1.9 6.6c.2.8-.3 1.6-1.1 1.8-.8.2-1.6-.3-1.8-1.1L12.7 15h-1.4l-1.6 5.4c-.2.8-1 1.3-1.8 1.1-.8-.2-1.3-1-1.1-1.8l1.9-6.6v-3l-4-.8c-.8-.2-1.3-.9-1.1-1.7.2-.8.9-1.3 1.7-1.1L10 7.6h4l4.7-.9c.8-.2 1.5.1 1.7.9Z"/></svg>
+    Accessibility
+    <button class="close" type="button" aria-label="Close accessibility tools">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </h2>
+
+  <div class="a11y-group">
+    <h3>Listen to this page</h3>
+    <div class="a11y-row">
+      <button class="opt" type="button" id="speakPlay" aria-pressed="false" data-msg="">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        <span class="t">Read aloud</span></button>
+      <button class="opt" type="button" id="speakPause">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+        <span class="t">Pause</span></button>
+      <button class="opt" type="button" id="speakStop">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/></svg>
+        <span class="t">Stop</span></button>
+    </div>
+    <p class="speak-status" id="speakStatus" role="status" aria-live="polite">Ready when you are.</p>
+  </div>
+
+  <div class="a11y-group">
+    <h3>Colour</h3>
+    <div class="a11y-row">
+      <button class="opt" type="button" data-pref="data-mono" data-val="off" data-msg="Full colour restored">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18"/></svg>
+        Full colour</button>
+      <button class="opt" type="button" data-pref="data-mono" data-val="on" data-msg="Black and white mode on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor"/></svg>
+        Black &amp; white</button>
+      <button class="opt" type="button" data-pref="data-contrast" data-val="normal" data-msg="Standard contrast">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/></svg>
+        Standard</button>
+      <button class="opt" type="button" data-pref="data-contrast" data-val="high" data-msg="High contrast on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3v18" stroke-width="9"/></svg>
+        High contrast</button>
+    </div>
+  </div>
+
+  <div class="a11y-group">
+    <h3>Text size</h3>
+    <div class="a11y-row">
+      <button class="opt" type="button" data-pref="data-text" data-val="md" data-msg="Default text size">A</button>
+      <button class="opt" type="button" data-pref="data-text" data-val="lg" data-msg="Larger text">A+</button>
+      <button class="opt" type="button" data-pref="data-text" data-val="xl" data-msg="Largest text">A++</button>
+    </div>
+  </div>
+
+  <div class="a11y-group">
+    <h3>Reading aids</h3>
+    <div class="a11y-row">
+      <button class="opt" type="button" data-pref="data-underline" data-val="on" data-msg="Links underlined">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 4v7a5 5 0 0 0 10 0V4M5 20h14"/></svg>
+        Underline links</button>
+      <button class="opt" type="button" data-pref="data-spacing" data-val="on" data-msg="Extra letter and line spacing">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        More spacing</button>
+      <button class="opt" type="button" data-pref="data-motion" data-val="off" data-msg="Animations paused">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z"/></svg>
+        Pause motion</button>
+      <button class="opt" type="button" data-pref="data-motion" data-val="on" data-msg="Animations on">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Allow motion</button>
+    </div>
+    <p class="a11y-note">Your choices are remembered on this device and apply to every page.
+       Press <kbd>Esc</kbd> to close, <kbd>Alt</kbd>&nbsp;+&nbsp;<kbd>A</kbd> to reopen.</p>
+    <div class="a11y-row" style="margin-top:10px">
+      <button class="opt" type="button" id="a11yReset">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/></svg>
+        Reset everything</button>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
