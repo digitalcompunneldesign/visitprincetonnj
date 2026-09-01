@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plan Your Trail — Winkler Botanical Preserve | Hiking Trails</title>
+<meta name="description" content="Walk Winkler Botanical Preserve stop by stop: four marked loops, the pond, the waterfall and the native plant areas." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/vendor/maplibre-gl.css">
+<style>
+/* ============================================================
+   15. PLAN PAGE — TOKENS
+   ============================================================ */
+:root{
+  --c-olive:#2b2c1d;
+  --c-olive-deep:#20211a;
+  --c-card:#111c14;
+  --c-card-2:#0f140f;
+  --c-gold:#f2d24b;
+  --c-link-dark:#7095e5;
+}
+body{background:var(--c-olive-deep)}
+
+
+/* ============================================================
+   15b. GRID — everything on the page sits on the same 12 columns
+   as the header, the footer and the homepage container.
+   ============================================================ */
+.plan-grid{
+  display:grid;grid-template-columns:repeat(12,1fr);gap:0 var(--gutter);
+  align-items:start;
+  /* no height:100% here — a percentage height against a min-height parent is
+     indefinite, so the grid collapsed to content and sticky had no range */
+}
+.map-ui{position:absolute;inset:0;z-index:7;display:flex;justify-content:center;pointer-events:none}
+.map-ui .container{position:relative;height:100%;pointer-events:none}
+.map-ui .journey-intro,.map-ui .progress-rail,.map-ui .map-note{pointer-events:auto}
+
+
+/* ============================================================
+   15c. LIGHT HEADER — this page sits on a white bar, not glass
+   ============================================================ */
+.page-light .header,.page-light .header.is-solid{
+  background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.07);backdrop-filter:none;
+}
+.page-light .logo-text{color:#1f1f1f}
+.page-light .nav a{color:#6b7075}
+.page-light .nav a:hover{color:#1b1b1b}
+.page-light .nav a[aria-current="page"]{color:#1b1b1b;font-weight:700}
+.page-light .nav a::after{background:#1b1b1b}
+.page-light .icon-btn{color:#3a3a3a}
+.page-light .icon-btn:hover{background:rgba(0,0,0,.06)}
+.page-light .btn-outline{background:#22231c;border-color:#22231c;color:#fff}
+.page-light .btn-outline:hover{background:#000;color:#fff}
+.page-light .burger span,
+.page-light .burger span::before,
+.page-light .burger span::after{background:#1b1b1b}
+@media (max-width:860px){
+  .page-light .nav{background:rgba(255,255,255,.98)}
+  .page-light .nav a{border-bottom-color:rgba(0,0,0,.08)}
+}
+
+
+/* ============================================================
+   16. JOURNEY — STICKY MAP + SCROLLING STEPS
+   ============================================================ */
+.journey{position:relative;z-index:1}
+.journey-map{
+  position:fixed;top:var(--header-h);left:0;right:0;
+  height:calc(100vh - var(--header-h));overflow:hidden;
+  background:var(--c-olive-deep);z-index:0;
+}
+.map-canvas{position:absolute;inset:0}
+.map-canvas canvas{outline:none}
+
+/* Real imagery stays readable underneath: tint, don't hide. */
+.map-tint{
+  position:absolute;inset:0;pointer-events:none;z-index:5;
+  background:linear-gradient(rgba(196,158,44,.16),rgba(150,128,40,.20));
+}
+.map-vignette{
+  position:absolute;inset:0;pointer-events:none;z-index:6;
+  background:
+    radial-gradient(130% 100% at 50% 45%,rgba(0,0,0,0) 55%,rgba(38,30,6,.30) 100%);
+}
+.maplibregl-ctrl-bottom-right,.maplibregl-ctrl-bottom-left{z-index:9}
+.maplibregl-ctrl-bottom-right{padding-right:84px}
+.maplibregl-marker{z-index:8}
+.maplibregl-ctrl-attrib{background:rgba(16,18,10,.6);color:#e8e6d8;font-size:10px}
+.maplibregl-ctrl-attrib a{color:#e8e6d8}
+.maplibregl-ctrl-group{background:rgba(20,22,14,.8);border:1px solid rgba(255,255,255,.16)}
+.maplibregl-ctrl-group button+button{border-top-color:rgba(255,255,255,.16)}
+.maplibregl-ctrl-group button span{filter:invert(1)}
+
+/* intro */
+.journey-intro{
+  position:absolute;z-index:7;top:11vh;left:0;
+  grid-column:1 / 7;left:0;right:0;
+  text-align:center;
+  transition:opacity 700ms var(--ease),transform 700ms var(--ease);
+}
+.journey-intro.is-past{opacity:0;transform:translateY(-18px);pointer-events:none}
+.journey-intro h1{
+  color:#fbebcd;text-transform:uppercase;font-weight:700;letter-spacing:.6px;
+  font-size:clamp(30px,3.4vw,50px);line-height:1.12;
+}
+.journey-intro p{
+  margin-top:16px;color:#fbebcd;font-size:clamp(15px,1.55vw,23px);line-height:1.4;
+  text-shadow:0 1px 12px rgba(0,0,0,.5);
+}
+.intro-doodle{width:96px;height:50px;margin:0 auto 10px;color:rgba(239,225,189,.75);display:block}
+.scroll-cue{
+  display:inline-flex;align-items:center;gap:8px;margin-top:26px;
+  font-family:var(--font-display);font-size:10.5px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.7);
+}
+.scroll-cue i{display:block;width:1px;height:26px;background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,0));animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* data provenance — visible on purpose */
+.map-note{
+  position:absolute;z-index:7;left:0;bottom:22px;max-width:300px;
+  font-size:10.5px;line-height:1.5;color:rgba(255,255,255,.62);
+  background:rgba(16,18,10,.5);border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r-sm);padding:8px 10px;backdrop-filter:blur(4px);
+}
+.map-note b{color:rgba(255,255,255,.9);font-weight:600}
+
+/* progress rail */
+.progress-rail{
+  position:absolute;z-index:7;left:0;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:12px;
+  opacity:1;transition:opacity 500ms var(--ease);
+}
+.progress-rail.is-hidden{opacity:0;pointer-events:none}
+.progress-rail button{
+  width:34px;height:34px;border-radius:var(--r-full);display:grid;place-items:center;
+  font-family:var(--font-display);font-size:13.5px;font-weight:700;color:rgba(255,255,255,.55);
+  border:1px solid rgba(255,255,255,.22);background:rgba(16,18,10,.35);
+  transition:all var(--t-fast) var(--ease);
+}
+.progress-rail button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.progress-rail button[aria-current="true"]{background:var(--c-gold);color:#1c1c12;border-color:var(--c-gold)}
+
+/* steps */
+.journey-steps{
+  position:relative;z-index:4;
+  /* this layer sits over the map, so it must not swallow clicks aimed at
+     the markers — only the cards themselves take pointer events */
+  pointer-events:none;
+}
+.step{
+  min-height:118vh;display:flex;align-items:stretch;pointer-events:none;
+  /* the map starts below the fixed header, so centre inside that area,
+     otherwise the top of the stack slides up behind the bar */
+  padding-top:var(--header-h);
+}
+.step > .container{pointer-events:none}
+.step--intro{min-height:100vh}
+.step--outro{min-height:70vh;align-items:flex-end;padding-bottom:12vh}
+.stop-stack{
+  grid-column:6 / -1;display:flex;flex-direction:column;gap:14px;pointer-events:auto;
+  /* pinned rather than centred: a 118vh chapter cannot reliably centre a
+     700px stack, and the top was sliding up behind the header */
+  position:sticky;top:calc(var(--header-h) + 22px);
+}
+
+
+/* ============================================================
+   17. STOP CARDS
+   ============================================================ */
+.stop-card{
+  background:var(--c-card);border-radius:18px;overflow:hidden;color:#fff;
+  box-shadow:0 26px 60px rgba(0,0,0,.45);
+  opacity:0;transform:translateY(26px) scale(.985);
+  transition:opacity 620ms var(--ease),transform 620ms var(--ease),filter 620ms var(--ease);
+  will-change:transform,opacity;
+}
+.step.is-active .stop-card{opacity:1;transform:none}
+.step:not(.is-active) .deck .stop-card{transform:translateY(26px) scale(.985) !important}
+
+
+/* ---- deck: one spot, several destinations ------------------------------- */
+.deck{display:grid;position:relative;padding-bottom:56px}
+.deck .stop-card{grid-area:1 / 1;align-self:stretch}
+.stop-card.is-target{box-shadow:0 0 0 3px var(--c-gold),0 26px 60px rgba(0,0,0,.45)}
+/* the buttons are not on the homepage's stylesheet, so they live here */
+.nav-round{
+  width:42px;height:42px;border-radius:var(--r-full);display:grid;place-items:center;
+  background:rgba(251,235,205,.94);color:#20241f;border:1px solid rgba(255,255,255,.25);
+  box-shadow:0 6px 18px rgba(0,0,0,.35);
+  transition:transform var(--t-fast) var(--ease),background var(--t-fast) var(--ease),color var(--t-fast) var(--ease);
+}
+.nav-round.is-dark{background:#16211a;color:#fbebcd;border-color:rgba(251,235,205,.35)}
+.nav-round:hover{transform:translateY(-2px)}
+.nav-round:not(.is-dark):hover{background:#fff}
+.nav-round.is-dark:hover{background:#0c130e}
+.deck-nav{
+  display:flex;align-items:center;gap:12px;justify-content:flex-end;
+  margin-top:14px;pointer-events:auto;
+}
+.deck-count{
+  font-family:var(--font-display);font-size:12px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;color:rgba(251,235,205,.66);
+}
+.deck-nav .nav-round{width:42px;height:42px}
+.deck-nav .nav-round svg{width:17px;height:17px}
+
+.stop-shot{position:relative;height:clamp(130px,21vh,240px);background:#1d231c}
+.stop-shot img{width:100%;height:100%;object-fit:cover}
+.stop-shot::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 55%,rgba(10,14,10,.85));
+}
+.shot-flag{
+  position:absolute;z-index:2;top:10px;right:10px;
+  font-family:var(--font-display);font-size:8.5px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(255,255,255,.82);
+  background:rgba(12,16,10,.6);border:1px solid rgba(255,255,255,.22);
+  border-radius:var(--r-full);padding:4px 8px;
+}
+.stop-body{padding:18px 30px 26px}
+.stop-head{display:flex;align-items:center;gap:22px}
+.stop-num{
+  width:38px;height:38px;flex-shrink:0;border-radius:var(--r-full);
+  background:var(--c-gold);color:#1c1c12;display:grid;place-items:center;
+  font-family:var(--font-display);font-size:16px;font-weight:700;
+}
+.stop-name{font-family:var(--font-body);font-size:clamp(19px,1.95vw,29px);font-weight:500;color:#fbebcd;line-height:1.2}
+.stop-kind{
+  margin-left:auto;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.66);font-family:var(--font-display);font-weight:600;white-space:nowrap;
+}
+.stop-inner{padding-left:60px}
+.stop-desc{margin-top:12px;font-size:clamp(13.5px,1.25vw,18px);line-height:1.5;color:rgba(251,235,205,.82)}
+.stop-meta{margin-top:16px;display:flex;flex-direction:column;gap:9px}
+.stop-meta li{display:flex;gap:10px;align-items:flex-start;font-size:clamp(12px,1.05vw,15px);line-height:1.45;color:rgba(255,255,255,.62)}
+.stop-meta svg{width:17px;height:17px;flex-shrink:0;margin-top:1px;color:rgba(255,255,255,.55)}
+.stop-meta b{color:rgba(255,255,255,.88);font-weight:600}
+.stop-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.act{
+  width:clamp(34px,3.4vw,50px);height:clamp(34px,3.4vw,50px);border-radius:var(--r-full);background:#fff;color:#20241f;
+  display:grid;place-items:center;transition:transform var(--t-fast) var(--ease);
+}
+.act svg{width:52%;height:52%}
+.stop-card:hover .act{transform:translateY(-1px)}
+.stop-cta{display:flex;align-items:center;gap:26px;margin-top:22px}
+.btn-book{
+  display:inline-flex;align-items:center;gap:12px;height:42px;padding:0 18px;
+  border:1px solid rgba(255,255,255,.32);border-radius:6px;
+  font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--c-link-dark);
+  transition:background var(--t-fast) var(--ease),border-color var(--t-fast) var(--ease);
+}
+.btn-book:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5)}
+.link-learn{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--c-link-dark);
+}
+.btn-book svg,.link-learn svg{width:16px;height:16px;transition:transform var(--t-fast) var(--ease)}
+.btn-book:hover svg,.link-learn:hover svg{transform:translateX(4px)}
+
+/* outro */
+.journey-outro{
+  grid-column:6 / -1;pointer-events:auto;
+  background:rgba(14,18,12,.86);border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r-lg);padding:22px 24px;color:rgba(255,255,255,.72);
+  font-size:12.5px;line-height:1.65;backdrop-filter:blur(6px);
+}
+.journey-outro h2{color:#fff;font-size:17px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+.journey-outro a{color:var(--c-link-dark);text-decoration:underline;text-underline-offset:2px}
+
+
+/* ============================================================
+   18. MARKERS
+   ============================================================ */
+.mk{
+  width:40px;height:40px;border-radius:var(--r-full);cursor:pointer;
+  background:#e9c93c;color:#1c1c12;border:2px solid rgba(255,255,255,.6);
+  display:grid;place-items:center;
+  font-family:var(--font-display);font-size:16px;font-weight:700;
+  box-shadow:0 3px 14px rgba(0,0,0,.45);
+  transition:transform 420ms var(--ease),box-shadow 420ms var(--ease),background 420ms var(--ease);
+}
+.mk:hover{transform:scale(1.14);background:var(--c-gold)}
+.mk:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.mk.is-active{
+  background:var(--c-gold);transform:scale(1.22);
+  box-shadow:0 0 0 9px rgba(242,210,75,.20),0 6px 20px rgba(0,0,0,.5);
+}
+.mk.is-active::after{
+  content:"";position:absolute;inset:-9px;border-radius:var(--r-full);
+  border:1.5px solid rgba(242,210,75,.55);animation:pulse 2.6s ease-out infinite;
+}
+@keyframes pulse{0%{transform:scale(.8);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+
+/* footer sits straight onto the olive so the ridge reads as a horizon */
+.mountain-band{background:transparent;position:relative;z-index:2}
+[data-page="plan-your-trail"] .footer{
+  position:relative;z-index:2;
+  background:rgba(255,244,223,.90);
+  backdrop-filter:saturate(120%) blur(3px);
+}
+
+
+/* keep the full stack on screen on shorter laptops */
+@media (max-height:900px){
+  .stop-shot{height:clamp(110px,16vh,190px)}
+  .stop-body{padding:14px 26px 20px}
+  .stop-desc{margin-top:9px}
+  .stop-meta{margin-top:12px;gap:7px}
+  .stop-acts{margin-top:14px;gap:10px}
+  .act{width:clamp(32px,3vw,42px);height:clamp(32px,3vw,42px)}
+  .stop-cta{margin-top:16px}
+  .deck{padding-bottom:48px}
+}
+@media (max-height:760px){
+  .stop-shot{height:clamp(96px,13vh,150px)}
+  .stop-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+}
+
+/* ============================================================
+   19. PLAN PAGE — RESPONSIVE
+   ============================================================ */
+@media (max-width:1023px){
+  .journey-intro{width:min(60%,520px);padding:0 28px}
+}
+@media (max-width:860px){
+  .journey-intro{position:absolute;top:13vh;left:0;width:100%;text-align:center;padding:0 24px}
+  /* the card owns the bottom of the screen on a phone, so the provenance note
+     moves up under the header and the rail tucks below the card */
+  .map-note{max-width:none;right:var(--gutter);left:var(--gutter);top:calc(var(--header-h) + 10px);bottom:auto}
+  .progress-rail{
+    top:auto;bottom:14px;left:50%;transform:translateX(-50%);
+    flex-direction:row;gap:8px;
+  }
+  .step{align-items:flex-end;justify-content:center;padding-bottom:13vh}
+  .step--outro{padding-bottom:8vh}
+  .plan-grid{display:block}
+  .stop-stack{grid-column:1 / -1;width:100%}
+  .journey-outro{grid-column:1 / -1}
+  .journey-intro{position:absolute;width:100%}
+  .stop-inner{padding-left:0}
+  .stop-head{gap:14px}
+  .stop-card--sub{margin-left:0;width:100%}
+  .journey-outro{margin:0 auto}
+  .stop-shot{aspect-ratio:16/7}
+}
+@media (max-width:767px){
+  .stop-body{padding:14px 16px 16px}
+  .stop-name{font-size:17px}
+  .stop-desc{font-size:12.5px}
+}
+
+
+/* ============================================================
+   20. PLAN PAGE — REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion:reduce){
+  .stop-card{opacity:1;transform:none}
+  .mk.is-active::after{animation:none}
+  .scroll-cue i{animation:none}
+}
+
+</style>
+</head>
+<body class="page-light" data-page="plan-your-trail">
+<a class="skip" href="#journey">Skip to the trail</a>
+
+<div data-component="header"></div>
+
+<main id="main">
+  <section class="journey" id="journey" aria-label="Winkler Botanical Preserve, stop by stop">
+    <div class="journey-map">
+      <div class="map-canvas" id="map" role="application" aria-label="Map of Winkler Botanical Preserve, Alexandria, Virginia"></div>
+      <div class="map-tint" aria-hidden="true"></div>
+      <div class="map-vignette" aria-hidden="true"></div>
+
+      <div class="map-ui">
+       <div class="container plan-grid">
+        <div class="journey-intro" id="journeyIntro">
+        <svg class="intro-doodle" viewBox="0 0 120 62" fill="none" aria-hidden="true">
+            <path d="M34 44c-6-6-4-15 3-17 6-1.6 9 4 5.6 7.4-3 3-8.6 1.4-9.6-3.4-1.4-7 5.6-12 12-11.6 9 .6 14 8 22 9.4 7 1.2 12-2 12-7.6 0-4-3.4-6.6-6.6-5.6-3 1-3.6 5-1 6.6" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 3" stroke-linecap="round"/>
+            <path d="M22 60c0-6.6 5-12 5-16.6" stroke="currentColor" stroke-width="1.1" stroke-dasharray="3 3" stroke-linecap="round"/>
+            <path d="M26 22c4.4 0 8 3.6 8 8 0 5.6-8 12-8 12s-8-6.4-8-12c0-4.4 3.6-8 8-8Z" stroke="currentColor" stroke-width="1.3"/>
+            <circle cx="26" cy="30" r="2.6" stroke="currentColor" stroke-width="1.3"/>
+          </svg>
+          <h1>Plan your trail</h1>
+          <p>Forty-four acres of woods, streams and native planting inside the city. Four marked loops, a pond, a waterfall, and between 1.4 and 2 miles of walking depending on how you link them.</p>
+          <span class="scroll-cue"><i></i> Scroll to travel the trail</span>
+        </div>
+
+        <nav class="progress-rail is-hidden" id="progressRail" aria-label="Jump to a trail stop (equivalent to the numbered map markers)"></nav>
+        <p class="map-note" id="mapNote"><b>Loading route…</b></p>
+       </div>
+      </div>
+    </div>
+
+    <div class="journey-steps" id="journeySteps"></div>
+  </section>
+</main>
+
+<div data-component="footer"></div>
+
+<script src="assets/vendor/maplibre-gl.js"></script>
+<script>
+/* ============================================================
+   CONFIG — the only place keys and data sources are set
+   ============================================================ */
+const MAP_CONFIG = {
+  /* 'esri'  — Esri World Imagery, no key, attribution required (default)
+     'maptiler' — set maptilerKey below
+     'google' — NOT implemented; see README. The Google Maps JS API uses a
+     different camera model, so switching means writing a GoogleEngine class
+     against the MapEngine interface at the bottom of this file. */
+  provider: 'esri',
+  googleMapsApiKey: '',          // ← your Google Maps JS API key goes here
+  googlePlacesApiKey: '',        // ← your Places key (used by getPlaceDetails)
+  maptilerKey: '',               // ← your MapTiler key, if provider = 'maptiler'
+
+  /* Winkler Botanical Preserve, from the supplied Google Maps place */
+  /* Framing taken from the supplied Google Maps view:
+     @38.8276857,-77.1228495,342m — that centre, at the zoom which reproduces
+     a 342m viewport at this latitude. The place pin itself sits at
+     38.8285697,-77.1218925. */
+  reference: { lng: -77.1228495, lat: 38.8276857 },
+  place:     { lng: -77.1218925, lat: 38.8285697 },
+  introZoom: 18.0,
+  stopZoom: 18.3,
+  pitch: 26
+};
+
+const TRAIL_CONFIG = {
+  /* An official GeoJSON of the four colour-coded loops wins over everything. */
+  geojsonUrl: '',
+  /* Otherwise the walking paths inside the preserve are pulled live from
+     OpenStreetMap. The preserve is small, so the bbox is tight. */
+  overpassUrl: 'https://overpass-api.de/api/interpreter',
+  osmFilter: 'way["highway"~"^(path|footway|track)$"]',
+  bbox: [38.8235, -77.1275, 38.8330, -77.1160]   // S, W, N, E
+};
+
+/* The four marked loops and their published distances. */
+const TRAIL_LOOPS = [
+  { name: 'Green Trail',  colour: '#3f9c4a', miles: 1.25, blurb: 'Scenic loop through woods' },
+  { name: 'Red Trail',    colour: '#cf2f2f', miles: 0.40, blurb: 'Short woodland loop' },
+  { name: 'Yellow Trail', colour: '#e8b207', miles: 0.30, blurb: 'Peaceful nature loop' },
+  { name: 'White Trail',  colour: '#f2f2f2', miles: 0.45, blurb: 'Winding trail through trees' }
+];
+
+/* ============================================================
+   TRAIL STOPS
+   ------------------------------------------------------------
+   Trail names, distances and features come from the preserve's published
+   trail information. Stop coordinates are APPROXIMATE anchors placed inside
+   the preserve and snapped to the nearest mapped path at runtime; they are not
+   surveyed positions. Verify access and opening hours before publishing.
+   ============================================================ */
+const trailStops = [
+  {
+    id: 1, name: 'Parking and entrance', kind: 'Trailhead',
+    lat: 38.826, lng: -77.1247, coordSource: 'approximate',
+    image: 'assets/img/winkler-bench.jpg', alt: 'A rustic bench above the water, with a city building beyond the trees',
+    description: 'The single entrance sits on the west side of the preserve. Free to enter, open daily from dawn to dusk, with a small lot that fills at weekends.',
+    parking: 'Free lot at the entrance — arrive early on fine weekends',
+    activities: ['hiking', 'picnic']
+  },
+  {
+    id: 2, name: "Catherine's Lodge", kind: 'Visitor centre',
+    lat: 38.8269, lng: -77.1239, coordSource: 'approximate',
+    image: 'assets/img/winkler-lodge.jpg', alt: 'Catherine\'s Lodge: a timber building with a deep porch and log posts',
+    description: 'The stone and timber lodge near the entrance is the orientation point: trail information, a place to sit, and the start of every marked loop.',
+    activities: ['history', 'picnic'],
+    pois: [{
+      name: 'Native plant areas', kind: 'Planting',
+      image: 'assets/img/winkler-garden.jpg', alt: 'A planted bed in flower beside a mown path',
+      description: 'The preserve was planted almost entirely with species native to the Potomac region, so the understorey changes noticeably between spring and late summer.',
+      activities: ['wildlife', 'photography']
+    }]
+  },
+  {
+    id: 3, name: 'Green Trail', kind: '1.25 miles',
+    lat: 38.8296, lng: -77.1228, coordSource: 'approximate',
+    image: 'assets/img/winkler-stream.jpg', alt: 'A shallow stream running over stones through open woodland',
+    description: 'The long way round: the outer loop through the woods and the only one that reaches the northern end of the preserve. Allow around forty minutes at a walking pace.',
+    activities: ['hiking', 'birding', 'photography']
+  },
+  {
+    id: 4, name: 'Red Trail', kind: '0.4 miles',
+    lat: 38.8286, lng: -77.124, coordSource: 'approximate',
+    image: 'assets/img/winkler-stream-detail.jpg', alt: 'Stepping stones set into the bed of the stream',
+    description: 'A short woodland loop off the middle of the preserve. Steeper in places than its length suggests, and the quietest of the four on a busy day.',
+    activities: ['hiking', 'wildlife']
+  },
+  {
+    id: 5, name: 'Yellow Trail', kind: '0.3 miles',
+    lat: 38.8274, lng: -77.1234, coordSource: 'approximate',
+    image: 'assets/img/winkler-bridge.jpg', alt: 'A wooden footbridge on log piers crossing a dark stream',
+    description: 'The shortest marked route, threading between the streams in the centre of the preserve. The easiest option with small children.',
+    activities: ['hiking', 'picnic', 'wildlife']
+  },
+  {
+    id: 6, name: 'White Trail', kind: '0.45 miles',
+    lat: 38.8281, lng: -77.1215, coordSource: 'approximate',
+    image: 'assets/img/winkler-pond-rail.jpg', alt: 'A log rail above the water on the shaded eastern bank',
+    description: 'The eastern loop, winding through trees along the far side of the pond. Links back to the Green Trail if you want to extend the walk.',
+    activities: ['hiking', 'birding']
+  },
+  {
+    id: 7, name: 'Lake and pond', kind: 'Water',
+    lat: 38.82769, lng: -77.12285, coordSource: 'approximate',
+    image: 'assets/img/winkler-pond.jpg', alt: 'The pond from the bank, trees reflected in still water',
+    description: 'The pond sits at the low point of the preserve and collects the streams running off the slopes. Benches on the near shore, herons if you are early and quiet.',
+    activities: ['wildlife', 'photography', 'picnic'],
+    pois: [{
+      name: 'Streams and bridges', kind: 'Crossings',
+      image: 'assets/img/winkler-bridge-detail.jpg', alt: 'The plank deck and log rail of one of the footbridges',
+      description: 'Several wooden footbridges carry the trails over the streams feeding the pond. They are the wettest spots after rain and the best places to stand still for a minute.',
+      activities: ['photography', 'wildlife']
+    }]
+  },
+  {
+    id: 8, name: 'Waterfall', kind: 'Feature',
+    lat: 38.828, lng: -77.1225, coordSource: 'approximate',
+    image: 'assets/img/winkler-waterfall.jpg', alt: 'A two-tier stone waterfall spilling into the pond below',
+    description: 'A small constructed waterfall above the pond — modest, but the sound carries and it is the feature most visitors come back for.',
+    activities: ['photography', 'wildlife']
+  }
+];
+
+/* Approximate corridor, used only if neither a GeoJSON nor OpenStreetMap is
+   reachable. Clearly flagged in the UI when it is in play. */
+/* Used only if OpenStreetMap is unreachable: a rough circuit of the preserve,
+   clearly flagged in the interface when it is in play. */
+const FALLBACK_ROUTE = [
+  [-77.12480, 38.82585], [-77.12430, 38.82650], [-77.12380, 38.82670],
+  [-77.12340, 38.82740], [-77.12300, 38.82820], [-77.12300, 38.83000],
+  [-77.12200, 38.83010], [-77.12120, 38.82940], [-77.12060, 38.82850],
+  [-77.12050, 38.82760], [-77.12150, 38.82700], [-77.12280, 38.82780],
+  [-77.12350, 38.82880], [-77.12300, 38.82820], [-77.12340, 38.82740],
+  [-77.12420, 38.82680], [-77.12480, 38.82585]
+];
+
+/* ============================================================
+   ACTIVITY + META ICONS
+   ============================================================ */
+const A = p => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
+const ACTIVITIES = {
+  hiking:      { label:'Hiking',        icon:A('<circle cx="14.5" cy="4.5" r="1.6"/><path d="M12.5 8.5 9.5 11l2.5 3 .5 6.5"/><path d="m12.5 8.5 3 1 1.5 3.5"/><path d="M9.5 11 6.5 15"/><path d="M18 6.5v14"/>') },
+  cycling:     { label:'Cycling',       icon:A('<circle cx="5.5" cy="16.5" r="3.6"/><circle cx="18.5" cy="16.5" r="3.6"/><path d="m5.5 16.5 4-8h5l4 8"/><path d="M9 8.5h5"/><circle cx="15.5" cy="4.6" r="1.4"/>') },
+  fishing:     { label:'Fishing',       icon:A('<path d="M4 14c3-4 8-5.5 12-3 1.4.9 2.4 2 3 2.8-2 3.4-7 5.4-12 2.8-1.4-.8-2.4-1.9-3-2.6Z"/><path d="m19 11-2.6 2.8L19 16.6"/><circle cx="9" cy="12.8" r=".7" fill="currentColor" stroke="none"/><path d="M4 19c2-.7 3.4-2 4-3.4"/>') },
+  birding:     { label:'Bird watching', icon:A('<path d="M20 5.5c-.8.4-1.5.7-2.2.8-1.2 2.5-3.2 4.4-5.8 5.5 2 .4 3.7.1 5-.7-1.1 3-3.4 5-6.4 5.9-2.7.7-5.5-.1-8-1.8 2.5.1 4.3-.4 5.5-1.6-2.3-.3-4-1.4-4.8-3.2 1.8.7 3.3.8 4.5.3-1.4-1.4-2.2-3-2-5 2.3 2.5 5.5 3.7 9.3 3.7 0-1.8 1-3 2.7-3.4 1.1-.3 2 .4 3 .7Z"/>') },
+  photography: { label:'Photography',   icon:A('<rect x="3" y="7" width="18" height="13" rx="3"/><circle cx="12" cy="13.5" r="3.6"/><path d="M9 7l1.5-3h3L15 7"/>') },
+  camping:     { label:'Camping',       icon:A('<path d="m12 4 9 16H3l9-16Z"/><path d="m12 9.5 6 10.5H6l6-10.5Z"/>') },
+  picnic:      { label:'Picnic',        icon:A('<path d="M4 10h16l-1.6 5H5.6L4 10Z"/><path d="M6.5 10V7a2.5 2.5 0 0 1 2.5-2.5h6A2.5 2.5 0 0 1 17.5 7v3"/><path d="M4 18.5h16"/>') },
+  swimming:    { label:'Swimming',      icon:A('<circle cx="17" cy="6.4" r="1.7"/><path d="m4 13 5-2.6 3.6 2.4 3.6-1.8"/><path d="M9 10.4 12 7l3.2 2"/><path d="M3 17.6c2-1.5 3.5-1.5 5.5 0s3.5 1.5 5.5 0 3.5-1.5 5.5 0"/><path d="M3 21c2-1.5 3.5-1.5 5.5 0s3.5 1.5 5.5 0 3.5-1.5 5.5 0"/>') },
+  wildlife:    { label:'Wildlife',      icon:A('<path d="M7 4c1.6 0 3 1.6 3 3.6S8.6 11 7 11 4 9.6 4 7.6 5.4 4 7 4Z"/><path d="M17 4c1.6 0 3 1.6 3 3.6S18.6 11 17 11s-3-1.4-3-3.4S15.4 4 17 4Z"/><path d="M12 11c2.8 0 5 2.6 5 5.6 0 2.2-1.6 3.4-5 3.4s-5-1.2-5-3.4c0-3 2.2-5.6 5-5.6Z"/>') },
+  water:       { label:'Water access',  icon:A('<path d="M12 3.5s5.5 6 5.5 9.6a5.5 5.5 0 0 1-11 0C6.5 9.5 12 3.5 12 3.5Z"/><path d="M9.6 14.4c.5 1.4 1.4 2.2 2.8 2.5"/>') },
+  history:     { label:'Historic site', icon:A('<path d="M4 10 12 5l8 5"/><path d="M6 10v8M10 10v8M14 10v8M18 10v8"/><path d="M3.5 21h17"/>') }
+};
+const ICON = {
+  pin:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.4"/></svg>',
+  geo:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8.5"/><path d="m8.6 15.4 2.2-6.6 6.6-2.2-2.2 6.6z"/></svg>',
+  park:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5"/><path d="M9.5 17V7.5h3.2a2.9 2.9 0 0 1 0 5.8H9.5"/></svg>',
+  arrow: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg>'
+};
+
+/* ============================================================
+   GEO HELPERS
+   ============================================================ */
+const $  = (s, c = document) => c.querySelector(s);
+const $$ = (s, c = document) => [...c.querySelectorAll(s)];
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const R = 6371000;
+const rad = d => d * Math.PI / 180;
+
+function haversine(a, b){
+  const dLat = rad(b[1] - a[1]), dLng = rad(a[0] - b[0]);
+  const s = Math.sin(dLat / 2) ** 2 +
+            Math.cos(rad(a[1])) * Math.cos(rad(b[1])) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(s));
+}
+/* Nearest point on a polyline, plus how far along the line it sits. */
+function snapToLine(pt, line, cum){
+  let best = { d: Infinity, coord: line[0], along: 0 };
+  for(let i = 0; i < line.length - 1; i++){
+    const a = line[i], b = line[i + 1];
+    const kx = Math.cos(rad(a[1]));
+    const ax = a[0] * kx, ay = a[1], bx = b[0] * kx, by = b[1] * kx / kx;
+    const px = pt[0] * kx, py = pt[1];
+    const dx = bx - ax, dy = b[1] - ay;
+    const len2 = dx * dx + dy * dy;
+    let t = len2 ? ((px - ax) * dx + (py - ay) * dy) / len2 : 0;
+    t = Math.max(0, Math.min(1, t));
+    const c = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+    const d = haversine(pt, c);
+    if(d < best.d) best = { d, coord: c, along: cum[i] + haversine(a, c) };
+  }
+  return best;
+}
+function cumulative(line){
+  const cum = [0];
+  for(let i = 1; i < line.length; i++) cum[i] = cum[i - 1] + haversine(line[i - 1], line[i]);
+  return cum;
+}
+
+/* ============================================================
+   ROUTE LOADING — official GeoJSON › OpenStreetMap › approximation
+   ============================================================ */
+async function fetchOverpassRoute(){
+  const [s, w, n, e] = TRAIL_CONFIG.bbox;
+  const q = `[out:json][timeout:30];(${TRAIL_CONFIG.osmFilter}(${s},${w},${n},${e});` +
+            `way["leisure"="nature_reserve"](${s},${w},${n},${e}););out geom;`;
+  const res = await fetch(TRAIL_CONFIG.overpassUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: 'data=' + encodeURIComponent(q)
+  });
+  if(!res.ok) throw new Error('Overpass ' + res.status);
+  const data = await res.json();
+  const ways = (data.elements || [])
+    .filter(el => el.type === 'way' && el.geometry && el.geometry.length > 1)
+    .map(el => el.geometry.map(p => [p.lon, p.lat]));
+  if(!ways.length) throw new Error('no ways returned');
+  return stitchWays(ways);
+}
+
+/* OSM returns the trail as many separate ways; chain them end to end. */
+function stitchWays(ways){
+  const pool = ways.slice();
+  let startIdx = 0, northest = -90;
+  pool.forEach((w, i) => [w[0], w[w.length - 1]].forEach(p => {
+    if(p[1] > northest){ northest = p[1]; startIdx = i; }
+  }));
+  let head = pool.splice(startIdx, 1)[0];
+  if(head[0][1] < head[head.length - 1][1]) head = head.slice().reverse();
+  const line = head.slice();
+  let guard = 0;
+  while(pool.length && guard++ < 2000){
+    const tail = line[line.length - 1];
+    let bi = -1, bd = Infinity, rev = false;
+    pool.forEach((w, i) => {
+      const d1 = haversine(tail, w[0]);
+      const d2 = haversine(tail, w[w.length - 1]);
+      if(d1 < bd){ bd = d1; bi = i; rev = false; }
+      if(d2 < bd){ bd = d2; bi = i; rev = true; }
+    });
+    if(bi < 0 || bd > 500) break;
+    let w = pool.splice(bi, 1)[0];
+    if(rev) w = w.slice().reverse();
+    line.push(...w.slice(1));
+  }
+  return line;
+}
+
+async function loadRoute(){
+  if(TRAIL_CONFIG.geojsonUrl){
+    try{
+      const gj = await (await fetch(TRAIL_CONFIG.geojsonUrl)).json();
+      const f = gj.type === 'FeatureCollection' ? gj.features[0] : gj;
+      const g = f.geometry || f;
+      const coords = g.type === 'MultiLineString' ? stitchWays(g.coordinates) : g.coordinates;
+      return { coords, source: 'geojson' };
+    }catch(err){ console.warn('GeoJSON failed:', err.message); }
+  }
+  try{
+    return { coords: await fetchOverpassRoute(), source: 'osm' };
+  }catch(err){
+    console.warn('OpenStreetMap route unavailable:', err.message);
+    return { coords: FALLBACK_ROUTE, source: 'approx' };
+  }
+}
+
+/* ============================================================
+   PLACES SERVICE — stub, kept away from the presentation layer
+   ============================================================ */
+async function getPlaceDetails(placeId){
+  if(!MAP_CONFIG.googlePlacesApiKey) return null;
+  /* Call your own server route; a Places key must never sit in this file
+     in production. The server holds the key and proxies the request. */
+  const res = await fetch(`/api/places/${encodeURIComponent(placeId)}`);
+  return res.ok ? res.json() : null;
+}
+async function getTrailStops(){
+  /* Swap for a fetch('/api/trail-stops') when the data moves to a CMS. */
+  return trailStops;
+}
+
+/* ============================================================
+   MAP ENGINE — MapLibre implementation of a small interface
+   (init, addRoute, setRouteProgress, addMarker, flyTo)
+   ============================================================ */
+function baseStyle(){
+  if(MAP_CONFIG.provider === 'maptiler' && MAP_CONFIG.maptilerKey){
+    return `https://api.maptiler.com/maps/hybrid/style.json?key=${MAP_CONFIG.maptilerKey}`;
+  }
+  return {
+    version: 8,
+    sources: {
+      sat: {
+        type: 'raster', tileSize: 256, maxzoom: 18,
+        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'],
+        attribution: 'Imagery © Esri, Maxar, Earthstar Geographics · Route © OpenStreetMap contributors'
+      },
+      labels: {
+        type: 'raster', tileSize: 256, maxzoom: 16,
+        tiles: ['https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}']
+      }
+    },
+    layers: [
+      { id: 'bg', type: 'background', paint: { 'background-color': '#20211a' } },
+      { id: 'sat', type: 'raster', source: 'sat' },
+      { id: 'labels', type: 'raster', source: 'labels', paint: { 'raster-opacity': 0.45 } },
+      /* The olive wash sits here — above the imagery, below the trail and the
+         markers, so the route stays white and the pins stay yellow. */
+      { id: 'tint', type: 'background', paint: { 'background-color': '#8a6a14', 'background-opacity': 0.6 } }
+    ]
+  };
+}
+
+class MapLibreEngine {
+  constructor(el){
+    const touch = window.matchMedia('(max-width: 860px)').matches;
+    this.map = new maplibregl.Map({
+      container: el,
+      style: baseStyle(),
+      center: [MAP_CONFIG.reference.lng, MAP_CONFIG.reference.lat],
+      zoom: MAP_CONFIG.introZoom,
+      pitch: 0,
+      attributionControl: { compact: true },
+      dragRotate: false,
+      /* The page owns vertical scrolling: the wheel must never zoom the map,
+         and on touch the map must not swallow the page scroll. */
+      scrollZoom: false,
+      dragPan: !touch,
+      touchZoomRotate: !touch
+    });
+    this.map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+  }
+  ready(fn){
+    const run = () => { if(this._ran) return; this._ran = true; fn(); };
+    if(this.map.loaded()) run(); else this.map.once('load', run);
+    /* If imagery is unreachable the load event never arrives — the route and
+       markers should still draw over the empty basemap. */
+    setTimeout(() => { if(this.map.isStyleLoaded()) run(); }, 4000);
+  }
+  addRoute(coords){
+    this.map.addSource('trail', {
+      type: 'geojson', lineMetrics: true,
+      data: { type: 'Feature', geometry: { type: 'LineString', coordinates: coords } }
+    });
+    this.map.addLayer({
+      id: 'trail-glow', type: 'line', source: 'trail',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': '#ffffff', 'line-width': 9, 'line-opacity': 0.18, 'line-blur': 6 }
+    });
+    this.map.addLayer({
+      id: 'trail-line', type: 'line', source: 'trail',
+      layout: { 'line-cap': 'round', 'line-join': 'round' },
+      paint: { 'line-color': '#ffffff', 'line-width': ['interpolate', ['linear'], ['zoom'], 9, 2, 15, 4] }
+    });
+  }
+  setRouteProgress(p){
+    const a = Math.max(0.002, Math.min(0.996, p));
+    const grad = ['interpolate', ['linear'], ['line-progress'],
+      0, 'rgba(255,255,255,1)',
+      a, 'rgba(255,255,255,1)',
+      Math.min(a + 0.012, 0.999), 'rgba(255,255,255,0.16)',
+      1, 'rgba(255,255,255,0.16)'];
+    ['trail-line', 'trail-glow'].forEach(id => {
+      if(this.map.getLayer(id)) this.map.setPaintProperty(id, 'line-gradient', grad);
+    });
+  }
+  addMarker(el, lngLat){
+    return new maplibregl.Marker({ element: el }).setLngLat(lngLat).addTo(this.map);
+  }
+  flyTo(lngLat, zoom, pitch){
+    this.map.flyTo({
+      center: lngLat, zoom, pitch,
+      speed: 0.5, curve: 1.5, essential: true
+    });
+  }
+  jumpToReference(){
+    this.map.jumpTo({
+      center: [MAP_CONFIG.reference.lng, MAP_CONFIG.reference.lat],
+      zoom: MAP_CONFIG.introZoom,
+      pitch: 0
+    });
+  }
+  fit(coords){
+    const b = coords.reduce((bb, c) => bb.extend(c),
+      new maplibregl.LngLatBounds(coords[0], coords[0]));
+    this.map.fitBounds(b, { padding: { top: 90, bottom: 90, left: 60, right: 60 }, duration: 0 });
+  }
+}
+
+/* ============================================================
+   BUILD THE EXPERIENCE
+   ============================================================ */
+(async function journey(){
+  const stepsEl = $('#journeySteps');
+  const railEl  = $('#progressRail');
+  const introEl = $('#journeyIntro');
+  const noteEl  = $('#mapNote');
+  const stops   = await getTrailStops();
+
+  /* --- cards ------------------------------------------------ */
+  const actMarkup = keys => keys
+    .filter(k => ACTIVITIES[k])
+    .map(k => `<span class="act" title="${ACTIVITIES[k].label}" aria-label="${ACTIVITIES[k].label}" role="img">${ACTIVITIES[k].icon}</span>`)
+    .join('');
+
+  const cardMarkup = (s, num) => `
+    <article class="stop-card" data-card>
+      <div class="stop-shot">
+        <img src="${s.image}" alt="${s.alt || s.name}" loading="lazy">
+      </div>
+      <div class="stop-body">
+        <div class="stop-head">
+          <span class="stop-num">${num}</span>
+          <h2 class="stop-name">${s.name}</h2>
+          <span class="stop-kind">${s.kind}</span>
+        </div>
+        <div class="stop-inner">
+        <p class="stop-desc">${s.description}</p>
+        <ul class="stop-meta">
+          ${s.primary ? `<li>${ICON.pin}<span>Distance: <b data-mile>measuring…</b></span></li>` : ''}
+          ${s.primary ? `<li>${ICON.geo}<span>Coordinates: <b data-coord>—</b></span></li>` : ''}
+          ${s.parking ? `<li>${ICON.park}<span>Parking: <b>${s.parking}</b></span></li>` : ''}
+        </ul>
+        <div class="stop-acts">${actMarkup(s.activities)}</div>
+        <div class="stop-cta">
+          <a class="btn-book" href="index.html#events">Book now ${ICON.arrow}</a>
+          <a class="link-learn" href="https://www.alexandriava.gov/parks" target="_blank" rel="noopener">Learn more ${ICON.arrow}</a>
+        </div>
+        </div>
+      </div>
+    </article>`;
+
+  stepsEl.insertAdjacentHTML('beforeend', '<div class="step step--intro" aria-hidden="true"></div>');
+  stops.forEach((s, i) => {
+    /* Every destination at this spot becomes one card in a single deck. */
+    const deck = [{ ...s, primary: true }, ...(s.pois || [])];
+    const many = deck.length > 1;
+    stepsEl.insertAdjacentHTML('beforeend', `
+      <section class="step" data-stop="${i}" aria-label="Stop ${i + 1}: ${s.name}">
+        <div class="container plan-grid">
+          <div class="stop-stack">
+            <div class="deck" data-deck>${deck.map(d => cardMarkup(d, i + 1)).join('')}</div>
+            ${many ? `
+            <div class="deck-nav">
+              <span class="deck-count" aria-live="polite">1 / ${deck.length}</span>
+              <button type="button" class="nav-round" data-dir="-1" aria-label="Previous destination at ${s.name}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 6-6 6 6 6"/></svg>
+              </button>
+              <button type="button" class="nav-round is-dark" data-dir="1" aria-label="Next destination at ${s.name}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 6 6 6-6 6"/></svg>
+              </button>
+            </div>` : ''}
+          </div>
+        </div>
+      </section>`);
+    railEl.insertAdjacentHTML('beforeend',
+      `<button type="button" data-go="${i}" aria-label="Go to stop ${i + 1}, ${s.name}">${i + 1}</button>`);
+  });
+  stepsEl.insertAdjacentHTML('beforeend', `
+    <section class="step step--outro">
+      <div class="container plan-grid">
+       <div class="journey-outro">
+        <h2>About this route</h2>
+        <p>The basemap is live satellite imagery and the paths are drawn from
+        OpenStreetMap, not illustrated. Trail names and distances follow the
+        preserve's own signage; the numbered pins are placed to the nearest
+        mapped path and are close rather than surveyed. Check current access
+        with <a href="https://www.alexandriava.gov/parks" target="_blank" rel="noopener">the City of Alexandria</a>
+        before a long trip.</p>
+       </div>
+      </div>
+    </section>`);
+
+  /* Rotating deck: the front card drops to the back and the one behind it
+     comes forward, so the order survives any number of clicks either way. */
+  const decks = [];
+  $$('.stop-stack', stepsEl).forEach((stack, stackIndex) => {
+    const deckEl = $('[data-deck]', stack);
+    const cards = $$('[data-card]', deckEl);
+    if(cards.length < 2) return;
+    const counter = $('.deck-count', stack);
+    let order = cards.map((_, i) => i);
+
+    function paint(){
+      order.forEach((cardIndex, depth) => {
+        const c = cards[cardIndex];
+        /* each card below the front one sits a little lower and a little
+           narrower, so the stack peeks out at the bottom, centred */
+        /* scaleX only: a uniform scale shrinks the height too and swallows
+           the drop, so the cards behind stop peeking out at the bottom */
+        c.style.transform = `translateY(${depth * 20}px) scaleX(${1 - depth * 0.05})`;
+        c.style.transformOrigin = 'top center';
+        c.style.zIndex = String(50 - depth);
+        c.style.opacity = depth > 2 ? '0' : '1';
+        c.style.filter = depth ? `brightness(${1 - depth * 0.14})` : '';
+        c.setAttribute('aria-hidden', depth ? 'true' : 'false');
+        $$('a, button', c).forEach(el => el.tabIndex = depth ? -1 : 0);
+      });
+      counter.textContent = `${order[0] + 1} / ${cards.length}`;
+    }
+    function rotate(dir){
+      dir > 0 ? order.push(order.shift()) : order.unshift(order.pop());
+      paint();
+    }
+    /* bring one card to the front — used by deep links from search */
+    decks[stackIndex] = {
+      front(n) {
+        n = Math.max(0, Math.min(n, cards.length - 1));
+        let guard = 0;
+        while (order[0] !== n && guard++ < cards.length) order.push(order.shift());
+        paint();
+        const c = cards[n];
+        c.classList.add('is-target');
+        setTimeout(() => c.classList.remove('is-target'), 2400);
+      }
+    };
+
+    $$('.deck-nav button', stack).forEach(b =>
+      b.addEventListener('click', () => rotate(Number(b.dataset.dir))));
+    stack.addEventListener('keydown', e => {
+      if(e.key === 'ArrowRight'){ e.preventDefault(); rotate(1); }
+      if(e.key === 'ArrowLeft'){ e.preventDefault(); rotate(-1); }
+    });
+    paint();
+  });
+
+  const stepEls = $$('.step[data-stop]', stepsEl);
+  const railBtns = $$('button', railEl);
+
+  /* --- map -------------------------------------------------- */
+  const engine = new MapLibreEngine('map');
+  const { coords, source } = await loadRoute();
+  const cum = cumulative(coords);
+  const total = cum[cum.length - 1];
+
+  /* Anchor each stop onto the route we actually loaded, and measure mileage
+     along that line rather than quoting a number. */
+  stops.forEach(s => {
+    const snap = snapToLine([s.lng, s.lat], coords, cum);
+    s.snapped = snap.coord;
+    s.t = total ? snap.along / total : 0;
+    s.mile = snap.along / 1609.34;
+    s.drift = snap.d;
+  });
+
+  const noteText = {
+    geojson: '<b>Paths:</b> supplied GeoJSON. Basemap imagery © Esri.',
+    osm:     '<b>Paths:</b> live OpenStreetMap geometry. Stop pins are approximate. Basemap imagery © Esri.',
+    approx:  '<b>Paths: approximate.</b> OpenStreetMap was unreachable — connect the preserve GeoJSON in TRAIL_CONFIG for accurate loops.'
+  };
+  noteEl.innerHTML = noteText[source];
+
+  /* fill in measured values */
+  stepEls.forEach((el, i) => {
+    const s = stops[i];
+    const mile = el.querySelector('[data-mile]');
+    const coord = el.querySelector('[data-coord]');
+    if(mile) mile.textContent = `≈ ${s.mile.toFixed(2)} miles along the marked paths from the entrance`;
+    if(coord) coord.textContent = `${s.snapped[1].toFixed(5)}, ${s.snapped[0].toFixed(5)}`;
+  });
+
+  engine.ready(() => {
+    engine.addRoute(coords);
+    engine.setRouteProgress(0.02);
+    /* Open on the supplied view rather than fitting the paths, so the
+       background matches the reference framing exactly. */
+    engine.jumpToReference();
+
+    stops.forEach((s, i) => {
+      const el = document.createElement('button');
+      el.className = 'mk';
+      el.type = 'button';
+      el.textContent = String(i + 1);
+      el.setAttribute('aria-label', `Stop ${i + 1}: ${s.name}`);
+      el.addEventListener('click', () => goToStep(i));
+      s.marker = engine.addMarker(el, s.snapped);
+      s.markerEl = el;
+    });
+  });
+
+  /* --- scroll storytelling ---------------------------------- */
+  let active = -1;
+  let onActiveChange = null;
+  function setActive(i){
+    if(i === active) return;
+    active = i;
+    stepEls.forEach((el, n) => el.classList.toggle('is-active', n === i));
+    railBtns.forEach((b, n) => b.setAttribute('aria-current', String(n === i)));
+    stops.forEach((s, n) => s.markerEl && s.markerEl.classList.toggle('is-active', n === i));
+    introEl.classList.toggle('is-past', i >= 0);
+    railEl.classList.toggle('is-hidden', i < 0);
+    if (onActiveChange) onActiveChange(i);
+
+    if(i < 0){
+      engine.setRouteProgress(0.02);
+      engine.flyTo([MAP_CONFIG.reference.lng, MAP_CONFIG.reference.lat],
+                   MAP_CONFIG.introZoom, 0);
+      return;
+    }
+    const s = stops[i];
+    engine.setRouteProgress(Math.max(s.t, 0.035));
+    engine.flyTo(s.snapped, MAP_CONFIG.stopZoom, REDUCED ? 0 : MAP_CONFIG.pitch);
+  }
+
+  /* A narrow band across the middle of the viewport decides which chapter is
+     current, so scrolling back up re-activates the previous one for free. */
+  const inBand = new Set();
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      en.isIntersecting ? inBand.add(en.target) : inBand.delete(en.target);
+    });
+    if(!inBand.size) return;
+    /* Two chapters can share the band mid-transition; the one whose centre is
+       closest to the middle of the screen is the one being read. */
+    const mid = window.innerHeight / 2;
+    let best = null, bestD = Infinity;
+    inBand.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const d = Math.abs((r.top + r.height / 2) - mid);
+      if(d < bestD){ bestD = d; best = el; }
+    });
+    setActive(Number(best.dataset.stop));
+  }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+  stepEls.forEach(el => io.observe(el));
+
+  /* above the first chapter, return to the overview */
+  const introIO = new IntersectionObserver(entries => {
+    entries.forEach(en => { if(en.isIntersecting) setActive(-1); });
+  }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+  introIO.observe($('.step--intro', stepsEl));
+
+  function goToStep(i){
+    const el = stepEls[i];
+    const y = el.getBoundingClientRect().top + window.scrollY + el.offsetHeight / 2 - window.innerHeight / 2;
+    window.scrollTo({ top: y, behavior: REDUCED ? 'auto' : 'smooth' });
+  }
+  railBtns.forEach(b => b.addEventListener('click', () => goToStep(Number(b.dataset.go))));
+
+  /* ----------------------------------------------------------
+     Deep links: #stop-5 opens that stop, #stop-5-2 also brings the
+     second destination at that stop to the front of the deck. This
+     is what search results point at.
+     ---------------------------------------------------------- */
+  let hashLock = false;
+  function openFromHash() {
+    const m = /^#stop-(\d+)(?:-(\d+))?$/.exec(location.hash);
+    if (!m) return;
+    const i = Math.max(0, Math.min(Number(m[1]) - 1, stepEls.length - 1));
+    const card = m[2] ? Number(m[2]) : 0;
+    hashLock = true;
+    goToStep(i);
+    setTimeout(() => {
+      setActive(i);
+      if (decks[i]) decks[i].front(card);
+      hashLock = false;
+    }, REDUCED ? 60 : 700);
+  }
+  window.addEventListener('hashchange', openFromHash);
+  if (location.hash) setTimeout(openFromHash, 350);
+
+  /* keep the address bar in step so any view can be shared or bookmarked */
+  const syncHash = i => {
+    if (hashLock || i < 0) return;
+    const h = '#stop-' + (i + 1);
+    if (location.hash !== h) history.replaceState(null, '', h);
+  };
+  onActiveChange = syncHash;
+})();
+</script>
+<script src="assets/js/search-index.js"></script>
+<script src="assets/js/components.js"></script>
+</body>
+</html>

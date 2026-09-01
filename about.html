@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — Hiking Trails</title>
+<meta name="description" content="Who we are: route guides walked before they are written, and trips run with the crews who maintain the trail." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/base.css">
+<style>
+
+/* this page sits on a white bar */
+.page-light .header,.page-light .header.is-solid{background:#fff;box-shadow:0 1px 0 rgba(0,0,0,.07);backdrop-filter:none}
+.page-light .logo-text{color:#1f1f1f}
+.page-light .nav a{color:#6b5e67}
+.page-light .nav a:hover{color:#1b1b1b}
+.page-light .nav a[aria-current="page"]{color:#1b1b1b;font-weight:700}
+.page-light .nav a::after{background:#1b1b1b}
+.page-light .icon-btn{color:#3a3a3a}
+.page-light .icon-btn:hover{background:rgba(0,0,0,.06)}
+.page-light .btn-outline{background:#22231c;border-color:#22231c;color:#fff}
+.page-light .btn-outline:hover{background:#000}
+.page-light .burger span,.page-light .burger span::before,.page-light .burger span::after{background:#1b1b1b}
+@media (max-width:860px){
+  .page-light .nav{background:rgba(255,255,255,.98)}
+  .page-light .nav a{border-bottom-color:rgba(0,0,0,.08)}
+}
+.lede{font-size:clamp(17px,1.6vw,23px);line-height:1.55;color:var(--c-ink);max-width:760px}
+.prose p{font-size:clamp(15px,1.35vw,19px);line-height:1.65;color:var(--c-body)}
+.prose p + p{margin-top:18px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media (max-width:900px){.two-col{grid-template-columns:1fr;gap:34px}}
+
+.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:52px}
+.stat{border:1px solid #b4b4b4;border-radius:var(--r-md);padding:26px 24px;background:#fff}
+.stat b{display:block;font-family:var(--font-display);font-size:clamp(28px,3vw,40px);font-weight:700;color:var(--c-ink);line-height:1.1}
+.stat span{display:block;margin-top:8px;font-size:15px;color:var(--c-body)}
+.about-img{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:4/3}
+.about-img img{width:100%;height:100%;object-fit:cover}
+.values{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:46px}
+.value{border:1px solid #b4b4b4;border-radius:var(--r-md);padding:30px 28px;background:#fff}
+.value img{width:44px;height:44px;object-fit:contain;margin-bottom:18px}
+.value h3{font-size:20px;font-weight:600;margin-bottom:10px}
+.value p{font-size:16px;line-height:1.6;color:var(--c-body)}
+@media (max-width:900px){.stat-row{grid-template-columns:repeat(2,1fr)}.values{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body class="page-light" data-page="about">
+<a class="skip" href="#main">Skip to content</a>
+<div data-component="header"></div>
+
+<main id="main">
+
+  <section class="page-hero">
+    <img src="assets/img/winkler-lodge-porch.jpg" alt="The porch and log posts of Catherine's Lodge">
+    <div class="container">
+      <p class="crumb"><a href="index.html">Home</a> / <span>About</span></p>
+      <h1>Trails are<br>better shared</h1>
+      <p>We map, maintain and write about long-distance walking and riding routes — and help people get onto them without a fortnight of planning.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col">
+      <div class="prose">
+        <h2 class="sec-title reveal" style="text-align:left">What we do</h2>
+        <p class="reveal">Hiking Trails began as a shared spreadsheet between four people who kept
+        losing track of which rail-trails were surfaced, which bridges were out, and where you could
+        actually park a car overnight. It turned into route guides, then into guided trips.</p>
+        <p class="reveal">Everything we publish gets walked or ridden first. If a section is closed,
+        washed out or unpleasant, we say so — a guide that only reports the good parts is not a guide.</p>
+        <p class="reveal">We work with state park services and volunteer trail crews rather than
+        around them, and a share of every booking goes back into the crews doing maintenance.</p>
+      </div>
+      <div class="about-img reveal"><img src="assets/img/winkler-waterfall.jpg" alt="The two-tier stone waterfall spilling into the pond" loading="lazy"></div>
+    </div>
+
+    <div class="container">
+      <div class="stat-row">
+        <div class="stat reveal"><b>78</b><span>Miles mapped on the Winkler alone</span></div>
+        <div class="stat reveal" data-d="1"><b>35</b><span>Bridges and two tunnels surveyed</span></div>
+        <div class="stat reveal" data-d="2"><b>1%</b><span>Maximum grade on the main route</span></div>
+        <div class="stat reveal" data-d="3"><b>2016</b><span>The year the spreadsheet got out of hand</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--c-green-bg)">
+    <div class="container">
+      <div class="sec-head">
+        <h2 class="sec-title reveal">How we work</h2>
+        <p class="sec-sub reveal" data-d="1">Three things we will not compromise on, however inconvenient they get.</p>
+      </div>
+      <div class="values">
+        <div class="value reveal" id="visiting"><img src="assets/icons/trails.svg" alt="" width="46" height="46"><h3>Walked, then written</h3>
+          <p>No route goes live from a map alone. Someone covers it end to end and files the problems as well as the views.</p></div>
+        <div class="value reveal" data-d="1"><img src="assets/icons/natural-areas.svg" alt="" width="46" height="46"><h3>Leave it better</h3>
+          <p>We pack out more than we bring in, and fund the volunteer crews who do the unglamorous work of keeping tread open.</p></div>
+        <div class="value reveal" data-d="2"><img src="assets/icons/birds.svg" alt="" width="46" height="46"><h3>Quiet by default</h3>
+          <p>Small groups, early starts, and a firm line on staying out of nesting areas in season.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="text-align:center">
+      <h2 class="sec-title reveal">Come and walk with us</h2>
+      <p class="sec-sub reveal" data-d="1">Tell us your dates and we will put a route together.</p>
+      <p style="margin-top:28px"><button class="btn-primary" data-book>Book your trail
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M13 6l6 6-6 6"/></svg></button></p>
+    </div>
+  </section>
+
+</main>
+
+<div data-component="footer"></div>
+<script src="assets/js/search-index.js"></script>
+<script src="assets/js/components.js"></script>
+
+</body>
+</html>
